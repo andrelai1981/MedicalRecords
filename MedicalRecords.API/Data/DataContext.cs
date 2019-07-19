@@ -7,7 +7,11 @@ namespace MedicalRecords.API.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base (options) {}
         
-        public DbSet<Box> Box { get; set; }
-        public DbSet<County> County { get; set; }
+        public DbSet<Box> Boxes { get; set; }
+        public DbSet<User> Users {get; set;}
+        public DbSet<County> Counties {get; set;}
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<File> Files { get; set; }
+        public DbSet<Client> Clients { get; set; }
     }
 }

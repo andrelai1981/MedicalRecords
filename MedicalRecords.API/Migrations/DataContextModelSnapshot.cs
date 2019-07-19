@@ -25,9 +25,13 @@ namespace MedicalRecords.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("BarcodeNum");
+
                     b.Property<int?>("CountyId");
 
                     b.Property<int?>("DepartmentId");
+
+                    b.Property<bool>("Destroyed");
 
                     b.HasKey("BoxId");
 
@@ -35,7 +39,7 @@ namespace MedicalRecords.API.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Box");
+                    b.ToTable("Boxes");
                 });
 
             modelBuilder.Entity("MedicalRecords.API.Models.Client", b =>
@@ -52,7 +56,7 @@ namespace MedicalRecords.API.Migrations
 
                     b.HasKey("ClientId");
 
-                    b.ToTable("Client");
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("MedicalRecords.API.Models.County", b =>
@@ -65,7 +69,7 @@ namespace MedicalRecords.API.Migrations
 
                     b.HasKey("CountyId");
 
-                    b.ToTable("County");
+                    b.ToTable("Counties");
                 });
 
             modelBuilder.Entity("MedicalRecords.API.Models.Department", b =>
@@ -78,7 +82,7 @@ namespace MedicalRecords.API.Migrations
 
                     b.HasKey("DepartmentId");
 
-                    b.ToTable("Department");
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("MedicalRecords.API.Models.File", b =>
@@ -93,6 +97,8 @@ namespace MedicalRecords.API.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<bool>("Destroyed");
+
                     b.Property<string>("From");
 
                     b.Property<string>("To");
@@ -103,7 +109,26 @@ namespace MedicalRecords.API.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("File");
+                    b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("MedicalRecords.API.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsAdmin");
+
+                    b.Property<byte[]>("PasswordHash");
+
+                    b.Property<byte[]>("PasswordSalt");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("MedicalRecords.API.Models.Box", b =>
