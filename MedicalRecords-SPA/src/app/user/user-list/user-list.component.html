@@ -1,3 +1,26 @@
-<p>
-  user-list works!
-</p>
+<div class="container mt-3">
+    <button class="btn btn-success" [routerLink]="['/user/new']">
+      Create New User
+    </button>
+</div>
+<div class="container mt-3">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Username</th>
+            <th scope="col">FirstName</th>
+            <th scope="col">LastName</th>
+            <th scope="col">Admin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td scope="row">{{user.userName}}</td>
+            <td scope="row">{{user.firstName}}</td>
+            <td scope="row">{{user.lastName}}</td>
+            <td>{{user.isAdmin}}</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  

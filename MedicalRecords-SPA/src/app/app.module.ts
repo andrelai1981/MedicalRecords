@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -14,11 +15,15 @@ import { UserService } from './_services/user.service';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { BoxListComponent } from './box/box-list/box-list.component';
 import { appRoutes } from './routes';
-import { FilesListComponent } from './files/files-list/files-list.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { AlertifyService } from './_services/alertify.service';
 import { AuthGuard } from './_guards/auth.guard';
-import { AdminGuard } from './_guards/admin.guard';
+import { FileListComponent } from './file/file-list/file-list.component';
+import { BoxDetailComponent } from './box/box-detail/box-detail.component';
+
+export function tokenGetter() {
+   return localStorage.getItem('token');
+}
 
 @NgModule({
    declarations: [
@@ -26,8 +31,9 @@ import { AdminGuard } from './_guards/admin.guard';
       NavComponent,
       HomeComponent,
       BoxListComponent,
+      BoxDetailComponent,
       BoxNewComponent,
-      FilesListComponent,
+      FileListComponent,
       UserListComponent
    ],
    imports: [
@@ -35,15 +41,21 @@ import { AdminGuard } from './_guards/admin.guard';
       HttpClientModule,
       FormsModule,
       BsDropdownModule.forRoot(),
-      RouterModule.forRoot(appRoutes)
+      RouterModule.forRoot(appRoutes, {onSameUrlNavigation: 'reload'}),
+      JwtModule.forRoot({
+         config: {
+            tokenGetter: tokenGetter,
+            whitelistedDomains: ['localhost:5000'],
+            blacklistedRoutes: ['localhost:5000/api/auth']
+         }
+      })
    ],
    providers: [
       AuthService,
       UserService,
       ErrorInterceptorProvider,
       AlertifyService,
-      AuthGuard,
-      AdminGuard
+      AuthGuard
    ],
    bootstrap: [
       AppComponent

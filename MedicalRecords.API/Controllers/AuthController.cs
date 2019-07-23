@@ -28,26 +28,26 @@ namespace MedicalRecords.API.Controllers
       _repo = repo;
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
+    [HttpPost("create")]
+    public async Task<IActionResult> Register(UserForCreateDto userForCreateDto)
     {
 
       // if ApiController is not used, this is checked against the model/dto
       // if (!ModelState.IsValid ) {
       //     return BadRequest(ModelState);
       // }
-      userForRegisterDto.UserName = userForRegisterDto.UserName.ToLower();
+      userForCreateDto.UserName = userForCreateDto.UserName.ToLower();
 
-      if (await _repo.UserExists(userForRegisterDto.UserName))
+      if (await _repo.UserExists(userForCreateDto.UserName))
       {
         return BadRequest("Username already exists");
       }
 
         var userToCreate = new User{
-            UserName = userForRegisterDto.UserName
+            UserName = userForCreateDto.UserName
         };
 
-        var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
+        var createdUser = await _repo.CreateUser(userToCreate, userForCreateDto.Password);
 
         return StatusCode(201);
     //   var userToReturn = _mapper.Map<UserForDetailedDto>(createdUser);

@@ -1,5 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { BoxService } from 'src/app/_services/box.service';
+import { AlertifyService } from 'src/app/_services/alertify.service';
+import { Box } from 'src/app/_models/Box';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-box-new',
@@ -7,38 +10,45 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./box-new.component.css']
 })
 export class BoxNewComponent implements OnInit {
-  @Output() cancelNewBox = new EventEmitter();
+  @Output() cancelAddBox = new EventEmitter();
+  box: any = {};
   counties: any;
   departments: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private boxService: BoxService, private alertify: AlertifyService, private router: Router) { }
 
   ngOnInit() {
     this.getCounties();
     this.getDepartments();
   }
   getCounties() {
-    this.http.get('http://localhost:5000/api/counties').subscribe(response => {
+    this.boxService.getCounties().subscribe(response => {
       this.counties = response;
     }, error => {
-      console.log(error);
+      this.alertify.error(error);
     });
   }
 
   getDepartments() {
-    this.http.get('http://localhost:5000/api/departments').subscribe(response => {
+    this.boxService.getDepartments().subscribe(response => {
       this.departments = response;
     }, error => {
-      console.log(error);
+      this.alertify.error(error);
     });
   }
 
-  // addBox() {
-  //   this.authService
-  // }
+  addBox() {
+    this.boxService.addBox(this.box).subscribe(() => {
+      this.alertify.success('Added box successfully');
+      this.router.navigate(['/boxes']);
+    }, error => {
+      this.alertify.error(error);
+    }, () => {
+      this.router.navigate(['/boxes']);
+    });
+  }
 
   cancel() {
-    this.cancelNewBox.emit(false);
-    console.log('cancelled');
+    this.router.navigate(['/boxes']);
   }
 }

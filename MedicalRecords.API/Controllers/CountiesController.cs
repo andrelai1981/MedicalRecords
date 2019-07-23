@@ -18,7 +18,6 @@ namespace MedicalRecords.API.Controllers
 
     }
     // GET api/counties
-    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetCounties()
     {

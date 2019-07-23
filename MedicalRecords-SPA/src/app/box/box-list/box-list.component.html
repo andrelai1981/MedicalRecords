@@ -1,3 +1,41 @@
-<p>
-  box-list works!
-</p>
+<div class="container">
+  <div class="container mt-3">
+    <button class="btn btn-success" [routerLink]="['/boxes/new']">
+      Create New Box
+    </button>
+  </div>
+  <div class="container mt-3">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Barcode #</th>
+          <th scope="col">Department</th>
+          <th scope="col">County</th>
+          <th scope="col">From</th>
+          <th scope="col">To</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let box of boxes">
+          <td scope="row">
+            <a [routerLink]="['/boxes/', box.boxId]">{{ box.barcodeNum }}</a>
+          </td>
+          <td>{{ box.department }}</td>
+          <td>{{ box.county }}</td>
+          <td>{{ box.from }}</td>
+          <td>{{ box.to }}</td>
+          <td>{{ box.description }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- <div *ngIf="addBoxMode" class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <app-box-new (cancelAddBox)="cancelAddBoxMode($event)"></app-box-new>
+    </div>
+  </div>
+</div> -->

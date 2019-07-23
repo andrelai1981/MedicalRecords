@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MedicalRecords.API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -69,9 +70,58 @@ namespace MedicalRecords.API.Data
     }
     public async Task<User> GetUser(int id)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+      var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
 
-        return user;
+      return user;
+    }
+
+    public async Task<IEnumerable<File>> GetFiles()
+    {
+      var files = await _context.Files.ToListAsync();
+
+      return files;
+    }
+    public async Task<IEnumerable<File>> GetFilesForBox(int id)
+    {
+      var files = await _context.Files.Where(f => f.Box.BoxId == id).ToListAsync();
+
+      return files;
+    }
+
+    public async Task<File> GetFile(int id)
+    {
+      var file = await _context.Files.FirstOrDefaultAsync(u => u.FileId == id);
+
+      return file;
+    }
+
+    public async Task<bool> BoxExists(long barcodeNum)
+    {
+      if (await _context.Boxes.AnyAsync(x => x.BarcodeNum == barcodeNum))
+        return true;
+
+      return false;
+    }
+
+    public async Task<Box> CreateBox(Box box)
+    {
+      await _context.Boxes.AddAsync(box);
+      await _context.SaveChangesAsync();
+
+      return box;
+    }
+
+    public async Task<Department> GetDepartment(int id) 
+    {
+      var department = await _context.Departments.FirstOrDefaultAsync(d => d.DepartmentId == id);
+
+      return department;
+    }
+    public async Task<County> GetCounty(int id) 
+    {
+      var county = await _context.Counties.FirstOrDefaultAsync(d => d.CountyId == id);
+
+      return county;
     }
   }
 }

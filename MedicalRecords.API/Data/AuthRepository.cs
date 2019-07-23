@@ -37,7 +37,7 @@ namespace MedicalRecords.API.Data
             return true;
         }
 
-        public async Task<User> Register(User user, string password)
+        public async Task<User> CreateUser(User user, string password)
         {
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);

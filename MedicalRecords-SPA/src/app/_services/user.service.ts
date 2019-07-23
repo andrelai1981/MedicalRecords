@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { User } from '../_models/user';
@@ -12,11 +12,11 @@ export class UserService {
   baseUrl = environment.apiUrl;
   jwtHelper = new JwtHelperService();
 
-constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  // getUsers(): Observable<User[]> {
-  //   return this.http.get<User[]>(this.baseUrl + 'users');
-  // }
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl + 'users');
+  }
 
   getUser(id): Observable<User> {
     return this.http.get<User>(this.baseUrl + 'users/' + id);

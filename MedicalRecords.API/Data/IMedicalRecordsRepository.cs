@@ -11,9 +11,16 @@ namespace MedicalRecords.API.Data
         Task<bool> SaveAll();
         Task<IEnumerable<Box>> GetBoxes();
         Task<Box> GetBox(int id);
-        Task<IEnumerable<Department>> GetDepartments();
-        Task<IEnumerable<County>> GetCounties();
+        Task<bool> BoxExists(long barcodeNum);
+        Task<Box> CreateBox(Box box);
         Task<IEnumerable<User>> GetUsers();
         Task<User> GetUser(int id);
+        Task<IEnumerable<File>> GetFiles();
+        Task<File> GetFile(int id);
+        Task<IEnumerable<File>> GetFilesForBox(int id);
+        Task<IEnumerable<Department>> GetDepartments();
+        Task<Department> GetDepartment(int id);
+        Task<IEnumerable<County>> GetCounties();
+        Task<County> GetCounty(int id);
     }
 }

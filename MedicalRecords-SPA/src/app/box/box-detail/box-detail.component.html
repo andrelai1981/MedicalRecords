@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col"><strong>Barcode #:&nbsp;</strong></div>
+    <div class="col">{{ box.barcodeNum }}</div>
+    <div class="col">
+      <strong>Department:&nbsp;</strong></div>
+      <div class="col">{{ box?.department }}
+    </div>
+    <div class="col"><strong>County:&nbsp;</strong></div>
+    <div class="col">{{ box?.county }}</div>
+    <div class="col">
+      <strong>Department:&nbsp;</strong></div>
+      <div class="col">{{ box?.department }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col"><strong>From:&nbsp;</strong></div>
+    <div class="col">{{box?.from}}</div>
+    <div class="col"><strong>To:&nbsp;</strong></div>
+    <div class="col">{{box?.from}}</div>
+    <div class="col"><strong>Description:&nbsp;</strong></div>
+    <div class="col">{{box?.description}}</div>
+    <div class="col"></div>
+    <div class="col"></div>
+  </div>
+</div>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">File #</th>
+            <th scope="col">Client Id</th>
+            <th scope="col">Description</th>
+            <th scope="col">Destroyed</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of box?.files">
+            <td scope="row">{{ file?.fileId }}</td>
+            <td>{{ file?.clientId }}</td>
+            <td>{{ file?.description }}</td>
+            <td>{{ file?.destroyed }}</td>
+            <td><i class="fa fa-trash"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

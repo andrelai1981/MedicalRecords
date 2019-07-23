@@ -4,14 +4,16 @@ using MedicalRecords.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MedicalRecords.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190721032527_AnotherModelChange")]
+    partial class AnotherModelChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,11 +148,11 @@ namespace MedicalRecords.API.Migrations
             modelBuilder.Entity("MedicalRecords.API.Models.Box", b =>
                 {
                     b.HasOne("MedicalRecords.API.Models.County", "County")
-                        .WithMany("Box")
+                        .WithMany()
                         .HasForeignKey("CountyId");
 
                     b.HasOne("MedicalRecords.API.Models.Department", "Department")
-                        .WithMany("Box")
+                        .WithMany()
                         .HasForeignKey("DepartmentId");
                 });
 

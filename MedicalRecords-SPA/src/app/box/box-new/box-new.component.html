@@ -1,32 +1,83 @@
-<form>
-    <h2 class="text-center text-primary">Create box</h2>
-    <hr>
-  
-    <div class="form-group">
-      <label for="department">Department</label>
-      <input type="text" class="form-control" placeholder="Barcode Number">
-    </div>
-  
-    <div class="form-group">
-      <label for="department">Department</label>
-      <select class="form-control" placeholder="department">
-        <option *ngFor="let department of departments" value = "{{department.departmentId}}">{{department.departmentName}}</option>
-      </select>
-    </div>
-    
-<!-- <p *ngFor="let department of departments">{{department.departmentid}}, {{department.departmentname}}</p> -->
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <form (ngSubmit)="addBox()">
+        <h2 class="text-center text-primary">Create box</h2>
+        <hr />
 
-<div class="form-group">
-    <label for="county">Counties</label>
-    <select class="form-control" placeholder="county">
-      <option *ngFor="let county of counties" value = "{{county.countyId}}">{{county.countyName}}</option>
-    </select>
+        <div class="form-group">
+          <label for="barcodeNum">Barcode #</label>
+          <input
+            type="text"
+            class="form-control"
+            name="barcodeNum"
+            [(ngModel)]="box.barcodeNum"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="department">Department</label>
+          <select
+            class="form-control"
+            name="department"
+            [(ngModel)]="box.department"
+          >
+            <option
+              *ngFor="let department of departments"
+              [value]="department.departmentId"
+              >{{ department.departmentName }}</option
+            >
+          </select>
+        </div>
+
+        <!-- <p *ngFor="let department of departments">{{department.departmentid}}, {{department.departmentname}}</p> -->
+
+        <div class="form-group">
+          <label for="county">Counties</label>
+          <select class="form-control" name="county" [(ngModel)]="box.county">
+            <option *ngFor="let county of counties" [value]="county.countyId">{{
+              county.countyName
+            }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="from">From</label>
+          <input
+            type="text"
+            class="form-control"
+            name="from"
+            [(ngModel)]="box.from"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="to">To</label>
+          <input
+            type="text"
+            class="form-control"
+            name="to"
+            [(ngModel)]="box.to"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            [(ngModel)]="box.description"
+          />
+        </div>
+
+        <div class="form-group text-center">
+          <button class="btn btn-success" type="submit">Add Box</button>
+          <button class="btn btn-default" type="button" (click)="cancel()">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-    
-
-    <div class="form-group text-center">
-      <button class="btn btn-success" type="submit">Add Box</button>
-      <button class="btn btn-default" type="button" (click) = "cancel()">Cancel</button>
-    </div>
-    
-  </form>
+</div>

@@ -18,13 +18,20 @@ namespace MedicalRecords.API.Controllers
 
     }
     // GET api/departments
-    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetDepartments()
     {
       var departments = await _repo.GetDepartments();
 
       return Ok(departments);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetDepartment(int id)
+    {
+      var department = await _repo.GetDepartment(id);
+
+      return Ok(department);
     }
   }
 }

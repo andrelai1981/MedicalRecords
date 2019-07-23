@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MedicalRecords.API.Data;
@@ -7,7 +6,6 @@ using MedicalRecords.API.Dto;
 using MedicalRecords.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace MedicalRecords.API.Controllers
 {
@@ -44,23 +42,25 @@ namespace MedicalRecords.API.Controllers
       return Ok(boxToReturn);
     }
 
-    // [HttpPost("createbox")]
-    // public async Task<IActionResult> CreateBox(BoxForCreateDto boxForCreateDto)
-    // {
-    //   if (await _repo.BoxExists(boxForCreateDto.BarcodeNum))
-    //   {
-    //     return BadRequest("Box with that barcode number already exists");
-    //   }
+    [HttpPost("createbox")]
+    public async Task<IActionResult> CreateBox(BoxForCreateDto boxForCreateDto)
+    {
+      if (await _repo.BoxExists(boxForCreateDto.BarcodeNum))
+      {
+        return BadRequest("Box with that barcode number already exists");
+      }
 
-    //   var boxTocreate = new Box {
-    //     BarcodeNum = boxForCreateDto.BarcodeNum
-    //     ,Department = boxForCreateDto.Department
-    //     ,County = boxForCreateDto.County
-    //   };
+      var boxTocreate = _mapper.Map<Box>(boxForCreateDto);
 
-    //   var createdBox = await _repo.CreateBox(boxTocreate);
+      var dept = await _repo.GetDepartment(boxForCreateDto.Department);
+      var county = await _repo.GetCounty(boxForCreateDto.County);
+      
+      boxTocreate.Department = dept;
+      boxTocreate.County = county;
 
-    //   return StatusCode(201);
-    // }
+      var createdBox = await _repo.CreateBox(boxTocreate);
+
+      return StatusCode(201);
+    }
   }
 }

@@ -4,6 +4,7 @@ import { AlertifyService } from '../_services/alertify.service';
 import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { User } from '../_models/user';
 
 @Component({
   selector: 'app-nav',
@@ -15,7 +16,7 @@ export class NavComponent implements OnInit {
   jwtHelper = new JwtHelperService();
   admin: any;
 
-  constructor(public authService: AuthService, private userService: UserService, 
+  constructor(public authService: AuthService, private userService: UserService,
     private alertify: AlertifyService, private router: Router) { }
 
   ngOnInit() {
@@ -46,9 +47,15 @@ export class NavComponent implements OnInit {
   isAdminUser() {
     const token = localStorage.getItem('token');
     const userId = this.jwtHelper.decodeToken(token).nameid;
-    // this.userService.getUser(userId)
-    console.log(this.userService.getUser(userId));
-    debugger;
+    this.userService.getUser(userId).subscribe((user: User) => {
+      if (user.isAdmin) {
+        return true;
+      }
+    }, error => {
+      this.alertify.error(error);
+    });
+    // console.log(this.userService.getUser(userId));
+    // debugger;
     return false;
   }
 }

@@ -4,14 +4,16 @@ using MedicalRecords.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MedicalRecords.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190721030824_ModifiedDataModel")]
+    partial class ModifiedDataModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,13 +35,7 @@ namespace MedicalRecords.API.Migrations
 
                     b.Property<int?>("DepartmentId");
 
-                    b.Property<string>("Description");
-
                     b.Property<bool>("Destroyed");
-
-                    b.Property<string>("From");
-
-                    b.Property<string>("To");
 
                     b.HasKey("BoxId");
 
@@ -111,6 +107,10 @@ namespace MedicalRecords.API.Migrations
 
                     b.Property<bool>("Destroyed");
 
+                    b.Property<string>("From");
+
+                    b.Property<string>("To");
+
                     b.HasKey("FileId");
 
                     b.HasIndex("BoxId");
@@ -146,11 +146,11 @@ namespace MedicalRecords.API.Migrations
             modelBuilder.Entity("MedicalRecords.API.Models.Box", b =>
                 {
                     b.HasOne("MedicalRecords.API.Models.County", "County")
-                        .WithMany("Box")
+                        .WithMany()
                         .HasForeignKey("CountyId");
 
                     b.HasOne("MedicalRecords.API.Models.Department", "Department")
-                        .WithMany("Box")
+                        .WithMany()
                         .HasForeignKey("DepartmentId");
                 });
 
