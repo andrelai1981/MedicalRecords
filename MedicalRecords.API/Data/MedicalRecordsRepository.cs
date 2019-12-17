@@ -29,6 +29,7 @@ namespace MedicalRecords.API.Data
         .Include(d => d.Department)
         .Include(c => c.County)
         .Include(f => f.Files)
+        .ThenInclude(c => c.Client)
         .FirstOrDefaultAsync(b => b.BoxId == id);
 
       return box;
@@ -75,25 +76,31 @@ namespace MedicalRecords.API.Data
       return user;
     }
 
-    public async Task<IEnumerable<File>> GetFiles()
+    public async Task<IEnumerable<File>> GetFilesForBox(int boxId)
     {
-      var files = await _context.Files.ToListAsync();
+      var files = await _context.Files
+        .Where(b => b.Box.BoxId == boxId)
+        .Include(c => c.Client)
+        .ToListAsync();
 
       return files;
     }
-    public async Task<IEnumerable<File>> GetFilesForBox(int id)
-    {
-      var files = await _context.Files.Where(f => f.Box.BoxId == id).ToListAsync();
+    // public async Task<IEnumerable<File>> GetFilesForBox(int id)
+    // {
+    //   var files = await _context.Files
+    //     .Where(f => f.Box.BoxId == id)
+    //     .Include(c => c.Client)
+    //     .ToListAsync();
 
-      return files;
-    }
+    //   return files;
+    // }
 
-    public async Task<File> GetFile(int id)
-    {
-      var file = await _context.Files.FirstOrDefaultAsync(u => u.FileId == id);
+    // public async Task<File> GetFile(int id)
+    // {
+    //   var file = await _context.Files.FirstOrDefaultAsync(u => u.FileId == id);
 
-      return file;
-    }
+    //   return file;
+    // }
 
     public async Task<bool> BoxExists(long barcodeNum)
     {
@@ -122,6 +129,21 @@ namespace MedicalRecords.API.Data
       var county = await _context.Counties.FirstOrDefaultAsync(d => d.CountyId == id);
 
       return county;
+    }
+
+    public async Task<File> CreateFile(File file)
+    {
+      await _context.Files.AddAsync(file);
+      await _context.SaveChangesAsync();
+
+      return file;
+    }
+
+    public async Task<Client> GetClient(int id)
+    {
+      var client = await _context.Clients.FirstOrDefaultAsync(c => c.ClientId == id);
+
+      return client;
     }
   }
 }

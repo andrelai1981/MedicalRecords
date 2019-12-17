@@ -42,7 +42,7 @@ namespace MedicalRecords.API.Controllers
       return Ok(boxToReturn);
     }
 
-    [HttpPost("createbox")]
+    [HttpPost("create")]
     public async Task<IActionResult> CreateBox(BoxForCreateDto boxForCreateDto)
     {
       if (await _repo.BoxExists(boxForCreateDto.BarcodeNum))

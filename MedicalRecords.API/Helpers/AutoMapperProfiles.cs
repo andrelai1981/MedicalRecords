@@ -42,10 +42,30 @@ namespace MedicalRecords.API.Helpers
                 .ForMember(dest => dest.ClientId, opt =>
                 {
                     opt.MapFrom(src => src.Client.ClientId);
+                })
+                .ForMember(dest => dest.ClientName, opt =>
+                {
+                    opt.MapFrom(src => src.Client.LastName + ", " + src.Client.FirstName);
                 });
 
-            CreateMap<File, FileForBoxListDto>();
+            CreateMap<File, FileForBoxListDto>()
+                .ForMember(dest => dest.ClientId, opt =>
+                    {
+                        opt.MapFrom(src => src.Client.ClientId);
+                    })
+                    .ForMember(dest => dest.ClientName, opt =>
+                    {
+                        opt.MapFrom(src => src.Client.LastName + ", " + src.Client.FirstName);
+                    });
+                    
 
+            CreateMap<FileForCreateDto, File>()
+                .ForMember(dest => dest.Client, opt => {
+                        opt.Ignore();
+                    })
+                    .ForMember(dest => dest.Box, opt => {
+                        opt.Ignore();
+                    });
         } 
 
     }
