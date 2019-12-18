@@ -1,14 +1,15 @@
 <div class="container mt-3">
-    <button class="btn btn-success" [routerLink]="['/files/new']">
+    <!-- <button class="btn btn-success" [routerLink]="['/files/new']">
       Create New File
-    </button>
+    </button> -->
 </div>
 <div class="container mt-3">
     <table class="table">
         <thead>
           <tr>
-            <th scope="col">File #</th>
+            <th scope="col">Box Barcode #</th>
             <th scope="col">Client Id</th>
+            <th scope="col">Client Name</th>
             <th scope="col">Description</th>
             <th scope="col">Destroyed</th>
             <th scope="col"></th>
@@ -16,10 +17,11 @@
         </thead>
         <tbody>
           <tr *ngFor="let file of files">
-            <td scope="row"><a [routerLink]="['/files/', file.fileId]">{{file.fileId}}</a></td>
-            <td>{{file.clientId}}</td>
-            <td>{{file.description}}</td>
-            <td>{{file.destroyed}}</td>
+            <td scope="row"><a [routerLink]="['/boxes/', file.boxId]">{{file.barcodeNum}}</a></td>
+            <td>{{file.clientId > 0 ? file.clientId : '-' }}</td>
+            <td>{{file?.clientName}}</td>
+            <td>{{file?.description}}</td>
+            <td>{{file?.destroyed}}</td>
             <td><i class="fa fa-trash"></i></td>
           </tr>
         </tbody>

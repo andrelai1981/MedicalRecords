@@ -25,15 +25,15 @@ export class BoxService {
     return this.http.get<Box>(this.baseUrl + 'boxes/' + id);
   }
 
-  getCounties(): Observable<County[]>{
+  getCounties(): Observable<County[]> {
     return this.http.get<County[]>(this.baseUrl + 'counties');
   }
 
-  getDepartments(): Observable<Department[]>{
+  getDepartments(): Observable<Department[]> {
     return this.http.get<Department[]>(this.baseUrl + 'departments');
   }
 
   addBox(box: Box) {
-    return this.http.post(this.baseUrl + 'boxes/createbox', box);
+    return this.http.post(this.baseUrl + 'boxes/create', box);
   }
 }

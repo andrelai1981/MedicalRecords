@@ -22,4 +22,9 @@ export class FileService {
   getFile(id): Observable<File> {
     return this.http.get<File>(this.baseUrl + 'files/' + id);
   }
+
+  addFile(file: File, boxId: number) {
+    console.log(file);
+    return this.http.post(this.baseUrl + 'boxes/' + boxId + '/files/create', file);
+  }
 }

@@ -76,10 +76,10 @@ namespace MedicalRecords.API.Data
       return user;
     }
 
-    public async Task<IEnumerable<File>> GetFilesForBox(int boxId)
+    public async Task<IEnumerable<File>> GetFiles()
     {
       var files = await _context.Files
-        .Where(b => b.Box.BoxId == boxId)
+        .Include(b => b.Box)
         .Include(c => c.Client)
         .ToListAsync();
 
@@ -95,12 +95,12 @@ namespace MedicalRecords.API.Data
     //   return files;
     // }
 
-    // public async Task<File> GetFile(int id)
-    // {
-    //   var file = await _context.Files.FirstOrDefaultAsync(u => u.FileId == id);
+    public async Task<File> GetFile(int id)
+    {
+      var file = await _context.Files.FirstOrDefaultAsync(u => u.FileId == id);
 
-    //   return file;
-    // }
+      return file;
+    }
 
     public async Task<bool> BoxExists(long barcodeNum)
     {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FileService } from 'src/app/_services/file.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
-// import { File } from 'src/app/_models/File';
+import { File } from 'src/app/_models/File';
 
 @Component({
   selector: 'app-file-list',

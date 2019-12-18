@@ -4,7 +4,7 @@ import { Department } from "./department"
 
 export interface Box {
   boxId: number;
-  barcodeNum: string;
+  barcodeNum: number;
   department: Department[];
   county: County[];
   files?: File[];

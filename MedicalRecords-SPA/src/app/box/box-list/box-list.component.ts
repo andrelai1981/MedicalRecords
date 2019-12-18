@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { BoxService } from 'src/app/_services/box.service';
 import { Box } from 'src/app/_models/Box';

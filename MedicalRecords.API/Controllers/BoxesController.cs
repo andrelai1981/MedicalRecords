@@ -62,5 +62,20 @@ namespace MedicalRecords.API.Controllers
 
       return StatusCode(201);
     }
+
+    [HttpPost("{id}/files/create")]
+    public async Task<IActionResult> CreateFile(int id, FileForCreateDto fileForCreateDto)
+    {
+      var fileToCreate = _mapper.Map<File>(fileForCreateDto);
+      var box = await _repo.GetBox(id);
+      var client = await _repo.GetClient(fileForCreateDto.Client);
+
+      fileToCreate.Box = box;
+      fileToCreate.Client = client;
+
+      var createdFile = await _repo.CreateFile(fileToCreate);
+
+      return StatusCode(201);
+    }
   }
 }

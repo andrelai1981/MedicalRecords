@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MedicalRecords.API.Controllers
 {
   [Authorize]
-  [Route("api/boxes/{boxId}/files/")]
+  [Route("api/[controller]")]
   [ApiController]
   public class FilesController : ControllerBase
   {
@@ -24,39 +24,23 @@ namespace MedicalRecords.API.Controllers
     }
     // GET api/files
     [HttpGet]
-    public async Task<IActionResult> GetFilesForBox(int boxId)
+    public async Task<IActionResult> GetFiles()
     {
-      var files = await _repo.GetFilesForBox(boxId);
+      var files = await _repo.GetFiles();
 
       var filesToReturn = _mapper.Map<IEnumerable<FileForListDto>>(files);
 
       return Ok(filesToReturn);
     }
 
-    // [HttpGet("{id}")]
-    // public async Task<IActionResult> GetFile(int id)
-    // {
-    //   var file = await _repo.GetFile(id);
-
-    //   var fileToReturn = _mapper.Map<FileForListDto>(file);
-
-    //   return Ok(fileToReturn);
-    // }
-
-
-    [HttpPost("create")]
-    public async Task<IActionResult> CreateFile(int boxId, FileForCreateDto fileForCreateDto)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetFile(int id)
     {
-      var fileToCreate = _mapper.Map<File>(fileForCreateDto);
-      var box = await _repo.GetBox(boxId);
-      var client = await _repo.GetClient(fileForCreateDto.Client);
+      var file = await _repo.GetFile(id);
 
-      fileToCreate.Box = box;
-      fileToCreate.Client = client;
+      var fileToReturn = _mapper.Map<FileForListDto>(file);
 
-      var createdFile = await _repo.CreateFile(fileToCreate);
-
-      return StatusCode(201);
+      return Ok(fileToReturn);
     }
   }
 }

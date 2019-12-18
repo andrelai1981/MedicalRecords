@@ -6,6 +6,8 @@ import { FileListComponent } from './file/file-list/file-list.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { BoxNewComponent } from './box/box-new/box-new.component';
+import { FileNewComponent } from './file/file-new/file-new.component';
+import { BoxDetailResolver } from './_resolvers/box-detail.resolver';
 
 export const appRoutes: Routes = [
   { path: 'home', component: HomeComponent},
@@ -16,8 +18,9 @@ export const appRoutes: Routes = [
     children: [
       { path: 'boxes', component: BoxListComponent},
       { path: 'boxes/new', component: BoxNewComponent},
-      { path: 'boxes/:id', component: BoxDetailComponent},
+      { path: 'boxes/:id', component: BoxDetailComponent, resolve: {box: BoxDetailResolver}},
       { path: 'files', component: FileListComponent},
+      { path: 'boxes/:id/files/new', component: FileNewComponent},
       { path: 'users', component: UserListComponent},
     ]
   },

@@ -20,6 +20,8 @@ import { AlertifyService } from './_services/alertify.service';
 import { AuthGuard } from './_guards/auth.guard';
 import { FileListComponent } from './file/file-list/file-list.component';
 import { BoxDetailComponent } from './box/box-detail/box-detail.component';
+import { FileNewComponent } from './file/file-new/file-new.component';
+import { BoxDetailResolver } from './_resolvers/box-detail.resolver';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -34,6 +36,7 @@ export function tokenGetter() {
       BoxDetailComponent,
       BoxNewComponent,
       FileListComponent,
+      FileNewComponent,
       UserListComponent
    ],
    imports: [
@@ -55,7 +58,8 @@ export function tokenGetter() {
       UserService,
       ErrorInterceptorProvider,
       AlertifyService,
-      AuthGuard
+      AuthGuard,
+      BoxDetailResolver
    ],
    bootstrap: [
       AppComponent

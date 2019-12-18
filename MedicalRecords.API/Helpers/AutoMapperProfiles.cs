@@ -10,7 +10,9 @@ namespace MedicalRecords.API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<User, UserForListDto>();
+            
             CreateMap<User, UserForDetailedDto>();
+            
             CreateMap<BoxForCreateDto, Box>()
                 .ForMember(dest => dest.Department, opt => {
                     opt.Ignore();
@@ -18,6 +20,7 @@ namespace MedicalRecords.API.Helpers
                 .ForMember(dest => dest.County, opt => {
                     opt.Ignore();
                 });
+
             CreateMap<Box, BoxForListDto>()
                 .ForMember(dest => dest.Department, opt =>
                 {
@@ -38,6 +41,7 @@ namespace MedicalRecords.API.Helpers
                     opt.MapFrom(src => src.County.CountyName);
                 })
                 .ReverseMap();
+
             CreateMap<File, FileForListDto>()
                 .ForMember(dest => dest.ClientId, opt =>
                 {
@@ -46,6 +50,14 @@ namespace MedicalRecords.API.Helpers
                 .ForMember(dest => dest.ClientName, opt =>
                 {
                     opt.MapFrom(src => src.Client.LastName + ", " + src.Client.FirstName);
+                })
+                .ForMember(dest => dest.BarcodeNum, opt =>
+                {
+                    opt.MapFrom(src => src.Box.BarcodeNum);
+                })
+                .ForMember(dest => dest.BoxId, opt =>
+                {
+                    opt.MapFrom(src => src.Box.BoxId);
                 });
 
             CreateMap<File, FileForBoxListDto>()

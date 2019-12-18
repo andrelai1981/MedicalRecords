@@ -1,0 +1,57 @@
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <form (ngSubmit) = "addFile()">
+        <h2 class="text-center text-primary">Create file in box with barcode #{{this.barcodeNumber}}</h2>
+        <hr />
+  
+        <div class="form-group">
+          <label for="client">Client Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="client"
+            [(ngModel)]="file.client"
+          />
+        </div>
+  
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            [(ngModel)]="file.description"
+          />
+        </div>
+  
+        <!-- <div class="form-group">
+          <label for="barcodeNum">Barcode #</label>
+          <input
+            type="text"
+            class="form-control"
+            name="barcodeNum"
+            [(ngModel)]="file.barcodeNum"
+          />
+        </div> -->
+  
+        <!-- <div class="form-group">
+            <label for="boxId">Box Id</label>
+            <input
+              type="text"
+              class="form-control"
+              name="boxId"
+              [(ngModel)]="file.boxId"
+            />
+          </div> -->
+  
+        <div class="form-group text-center">
+          <button class="btn btn-success" type="submit">Add File</button>
+          <button class="btn btn-default" type="button" (click)="cancel()">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
