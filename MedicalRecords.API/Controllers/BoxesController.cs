@@ -6,6 +6,8 @@ using MedicalRecords.API.Dto;
 using MedicalRecords.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System;
 
 namespace MedicalRecords.API.Controllers
 {
@@ -68,7 +70,7 @@ namespace MedicalRecords.API.Controllers
     {
       var fileToCreate = _mapper.Map<File>(fileForCreateDto);
       var box = await _repo.GetBox(id);
-      var client = await _repo.GetClient(fileForCreateDto.Client);
+      var client = await _repo.GetClient(fileForCreateDto.ClientId);
 
       fileToCreate.Box = box;
       fileToCreate.Client = client;
@@ -76,6 +78,25 @@ namespace MedicalRecords.API.Controllers
       var createdFile = await _repo.CreateFile(fileToCreate);
 
       return StatusCode(201);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateBox(int id, BoxForUpdateDto boxForUpdateDto)
+    {
+      var boxToUpdate = await _repo.GetBox(id);
+
+      _mapper.Map(boxForUpdateDto, boxToUpdate);
+
+      var dept = await _repo.GetDepartment(boxForUpdateDto.Department);
+      var county = await _repo.GetCounty(boxForUpdateDto.County);
+
+      boxToUpdate.Department = dept;
+      boxToUpdate.County = county;
+
+      if (await _repo.SaveAll())
+        return NoContent();
+
+      throw new Exception($"Updating box {id} failed on save");
     }
   }
 }

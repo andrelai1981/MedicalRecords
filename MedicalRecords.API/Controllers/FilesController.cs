@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -38,9 +39,26 @@ namespace MedicalRecords.API.Controllers
     {
       var file = await _repo.GetFile(id);
 
-      var fileToReturn = _mapper.Map<FileForListDto>(file);
+      var fileToReturn = _mapper.Map<FileForDetailDto>(file);
 
       return Ok(fileToReturn);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateFile(int id, FileForUpdateDto fileForUpdateDto)
+    {
+      var fileToUpdate = await _repo.GetFile(id);
+
+      _mapper.Map(fileForUpdateDto, fileToUpdate);
+
+      var client = await _repo.GetClient(fileForUpdateDto.ClientId);
+
+      fileToUpdate.Client = client;
+
+      if (await _repo.SaveAll())
+        return NoContent();
+
+      throw new Exception($"Updating file {id} failed on save");
     }
   }
 }

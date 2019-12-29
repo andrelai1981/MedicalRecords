@@ -24,5 +24,6 @@ namespace MedicalRecords.API.Data
         Task<IEnumerable<County>> GetCounties();
         Task<County> GetCounty(int id);
         Task<Client> GetClient(int id);
+        Task<IEnumerable<Client>> GetClients();
     }
 }

@@ -2,16 +2,10 @@
   <div class="row">
     <div class="col"><strong>Barcode #:&nbsp;</strong></div>
     <div class="col">{{ box.barcodeNum }}</div>
-    <div class="col">
-      <strong>Department:&nbsp;</strong>
-    </div>
-    <div class="col">{{ box.department }}</div>
+    <div class="col"><strong>Department:&nbsp;</strong></div>
+    <div class="col">{{ department.departmentName }}</div>
     <div class="col"><strong>County:&nbsp;</strong></div>
-    <div class="col">{{ box.county }}</div>
-    <div class="col">
-      <strong>Department:&nbsp;</strong>
-    </div>
-    <div class="col">{{ box.department }}</div>
+    <div class="col">{{ county.countyName }}</div>
   </div>
 
   <div class="row">
@@ -21,14 +15,15 @@
     <div class="col">{{ box.from }}</div>
     <div class="col"><strong>Description:&nbsp;</strong></div>
     <div class="col">{{ box.description }}</div>
-    <div class="col"></div>
-    <div class="col"></div>
   </div>
 </div>
 
 <div class="container mt-3">
   <button class="btn btn-success" [routerLink]="['/boxes/' + box.boxId + '/files/new']">
     Add File to Box
+  </button>
+  <button class="btn btn-primary" [routerLink]="['/boxes/' + box.boxId + '/edit']">
+    Edit Box Details
   </button>
 </div>
 
@@ -44,6 +39,7 @@
             <th scope="col">Description</th>
             <th scope="col">Destroyed</th>
             <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -54,8 +50,10 @@
             <ng-template #elseBlock><td>&nbsp;</td></ng-template>
             <td>{{ file.clientName }}</td>
             <td>{{ file.description }}</td>
-            <td>{{ file.destroyed }}</td>
+            <td><div *ngIf="file?.destroyed; else elseBlock">Yes</div></td>
+            <ng-template #elseBlock>No</ng-template>
             <td><i class="fa fa-trash"></i></td>
+            <td><button class="btn btn-primary btn-sm" [routerLink]="['/files/' + file.fileId + '/edit']">Edit File</button></td>
           </tr>
         </tbody>
       </table>

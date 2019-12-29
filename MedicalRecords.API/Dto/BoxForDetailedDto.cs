@@ -7,9 +7,9 @@ namespace MedicalRecords.API.Dto
   public class BoxForDetailedDto
   {
     public int BoxId { get; set; }
-    public string Department { get; set; }
+    public int Department { get; set; }
     public long BarcodeNum { get; set; }
-    public string County { get; set; }
+    public int County { get; set; }
     public string From { get; set; }
     public string To { get; set; }
     public string Description { get; set; }

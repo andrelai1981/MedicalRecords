@@ -25,5 +25,12 @@ namespace MedicalRecords.API.Controllers
 
       return Ok(counties);
     }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetCounty(int id)
+    {
+      var county = await _repo.GetCounty(id);
+
+      return Ok(county);
+    }
   }
 }

@@ -22,6 +22,10 @@ import { FileListComponent } from './file/file-list/file-list.component';
 import { BoxDetailComponent } from './box/box-detail/box-detail.component';
 import { FileNewComponent } from './file/file-new/file-new.component';
 import { BoxDetailResolver } from './_resolvers/box-detail.resolver';
+import { BoxEditComponent } from './box/box-edit/box-edit.component';
+import { BoxEditResolver } from './_resolvers/box-edit.resolver';
+import { FileEditComponent } from './file/file-edit/file-edit.component';
+import { FileEditResolver } from './_resolvers/file-edit.resolver';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -37,7 +41,9 @@ export function tokenGetter() {
       BoxNewComponent,
       FileListComponent,
       FileNewComponent,
-      UserListComponent
+      UserListComponent,
+      BoxEditComponent,
+      FileEditComponent,
    ],
    imports: [
       BrowserModule,
@@ -59,7 +65,9 @@ export function tokenGetter() {
       ErrorInterceptorProvider,
       AlertifyService,
       AuthGuard,
-      BoxDetailResolver
+      BoxDetailResolver,
+      BoxEditResolver,
+      FileEditResolver
    ],
    bootstrap: [
       AppComponent

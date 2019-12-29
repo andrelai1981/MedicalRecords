@@ -69,6 +69,13 @@ namespace MedicalRecords.API.Data
 
       return users;
     }
+
+    public async Task<IEnumerable<Client>> GetClients()
+    {
+      var clients = await _context.Clients.ToListAsync();
+
+      return clients;
+    }
     public async Task<User> GetUser(int id)
     {
       var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
@@ -97,7 +104,10 @@ namespace MedicalRecords.API.Data
 
     public async Task<File> GetFile(int id)
     {
-      var file = await _context.Files.FirstOrDefaultAsync(u => u.FileId == id);
+      var file = await _context.Files
+        .Include(b => b.Box)
+        .Include(c => c.Client)
+        .FirstOrDefaultAsync(u => u.FileId == id);
 
       return file;
     }

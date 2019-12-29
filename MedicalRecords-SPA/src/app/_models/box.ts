@@ -1,12 +1,10 @@
 import { File } from "./file"
-import { County } from "./county"
-import { Department } from "./department"
 
 export interface Box {
   boxId: number;
   barcodeNum: number;
-  department: Department[];
-  county: County[];
+  department: number;
+  county: number;
   files?: File[];
   from: string;
   to: string;

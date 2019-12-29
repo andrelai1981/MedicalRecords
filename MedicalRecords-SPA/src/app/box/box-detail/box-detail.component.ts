@@ -3,6 +3,8 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 import { BoxService } from 'src/app/_services/box.service';
 import { Box } from 'src/app/_models/Box';
 import { ActivatedRoute } from '@angular/router';
+import { County } from 'src/app/_models/county';
+import { Department } from 'src/app/_models/department';
 
 @Component({
   selector: 'app-box-detail',
@@ -12,7 +14,9 @@ import { ActivatedRoute } from '@angular/router';
 export class BoxDetailComponent implements OnInit {
 
   @Output() getBoxId = new EventEmitter<number>();
-  box: Box;
+  box: any = {};
+  county: any = {};
+  department: any = {};
 
   constructor(private boxService: BoxService, private alertify: AlertifyService,
     private route: ActivatedRoute) { }
@@ -21,14 +25,12 @@ export class BoxDetailComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.box = data['box'];
     });
+    this.boxService.getCounty(this.box.county).subscribe(response => {
+      this.county = response;
+    });
+    this.boxService.getDepartment(this.box.department).subscribe(response => {
+      this.department = response;
+    });
     this.getBoxId.emit(this.route.snapshot.params['id']);
   }
-  // box/4
-  // loadBox() {
-  //   this.boxService.getBox(+this.route.snapshot.params['id']).subscribe((box: Box) => {
-  //     this.box = box;
-  //   }, error => {
-  //     this.alertify.error(error);
-  //   });
-  // }
 }

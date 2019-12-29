@@ -4,7 +4,7 @@
     </button> -->
 </div>
 <div class="container mt-3">
-    <table class="table">
+    <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">Box Barcode #</th>
@@ -12,6 +12,7 @@
             <th scope="col">Client Name</th>
             <th scope="col">Description</th>
             <th scope="col">Destroyed</th>
+            <th scope="col"></th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -21,8 +22,10 @@
             <td>{{file.clientId > 0 ? file.clientId : '-' }}</td>
             <td>{{file?.clientName}}</td>
             <td>{{file?.description}}</td>
-            <td>{{file?.destroyed}}</td>
-            <td><i class="fa fa-trash"></i></td>
+            <td><div *ngIf="file?.destroyed; else elseBlock">Yes</div></td>
+            <ng-template #elseBlock>No</ng-template>
+            <td><i class="fa fa-fire"></i></td>
+            <td><button class="btn btn-primary btn-sm" [routerLink]="['/files/' + file.fileId + '/edit']">Edit File</button></td>
           </tr>
         </tbody>
       </table>

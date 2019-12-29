@@ -1,4 +1,5 @@
 using AutoMapper;
+using MedicalRecords.API.Controllers;
 using MedicalRecords.API.Dto;
 using MedicalRecords.API.Models;
 
@@ -34,11 +35,12 @@ namespace MedicalRecords.API.Helpers
             CreateMap<Box, BoxForDetailedDto>()
                 .ForMember(dest => dest.Department, opt =>
                 {
-                    opt.MapFrom(src => src.Department.DepartmentName);
+                    opt.MapFrom(src => src.Department.DepartmentId);
+                   
                 })
                 .ForMember(dest => dest.County, opt =>
                 {
-                    opt.MapFrom(src => src.County.CountyName);
+                    opt.MapFrom(src => src.County.CountyId);
                 })
                 .ReverseMap();
 
@@ -74,10 +76,38 @@ namespace MedicalRecords.API.Helpers
             CreateMap<FileForCreateDto, File>()
                 .ForMember(dest => dest.Client, opt => {
                         opt.Ignore();
-                    })
-                    .ForMember(dest => dest.Box, opt => {
-                        opt.Ignore();
-                    });
+                })
+                .ForMember(dest => dest.Box, opt => {
+                    opt.Ignore();
+                });
+            
+            CreateMap<BoxForUpdateDto, Box>() 
+               .ForMember(dest => dest.Department, opt => {
+                    opt.Ignore();
+                })
+                .ForMember(dest => dest.County, opt => {
+                    opt.Ignore();
+                });
+            
+            CreateMap<FileForUpdateDto, File>();
+
+            CreateMap<File, FileForDetailDto>()
+                .ForMember(dest => dest.BoxId, opt => {
+                    opt.MapFrom(src => src.Box.BoxId);
+                })
+                .ForMember(dest => dest.BarcodeNum, opt => {
+                    opt.MapFrom(src => src.Box.BarcodeNum);
+                })
+                .ForMember(dest => dest.ClientId, opt => {
+                    opt.MapFrom(src => src.Client.ClientId);
+                })
+                .ForMember(dest => dest.ClientName, opt => {
+                    opt.MapFrom(src => src.Client.LastName + ", "  + src.Client.FirstName);
+                });
+            CreateMap<Client, ClientForListDto>()
+                .ForMember(dest => dest.ClientName, opt => {
+                    opt.MapFrom(src => src.LastName + ", " + src.FirstName);
+                });
         } 
 
     }
