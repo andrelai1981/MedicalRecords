@@ -39,6 +39,7 @@ export class FileEditComponent implements OnInit {
   }
 
   updateFile() {
+    console.log(this.file);
     this.fileService.updateFile(this.file.fileId, this.file).subscribe(next => {
       this.alertify.success('File update sucessfully');
       this.editForm.reset(this.file);
