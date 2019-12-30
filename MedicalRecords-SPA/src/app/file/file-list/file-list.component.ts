@@ -39,18 +39,20 @@ export class FileListComponent implements OnInit {
   }
 
   destroyFile(fileId: number) {
-    this.fileService.getFile(fileId).subscribe((file: File) => {
-      file.destroyed = true;
-      this.fileService.updateFile(fileId, file).subscribe(next => {
-        this.alertify.success('File destroyed');
-        this.router.navigateByUrl('/files', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/files']);
+      if (confirm('Are you sure to destroy this file')) {
+        this.fileService.getFile(fileId).subscribe((file: File) => {
+          file.destroyed = true;
+          this.fileService.updateFile(fileId, file).subscribe(next => {
+            this.alertify.success('File destroyed');
+            this.router.navigateByUrl('/files', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/files']);
+            });
+          }, error => {
+            this.alertify.error(error);
+          });
+        }, error => {
+          this.alertify.error(error);
         });
-      }, error => {
-        this.alertify.error(error);
-      });
-    }, error => {
-      this.alertify.error(error);
-    });
+      }
   }
 }

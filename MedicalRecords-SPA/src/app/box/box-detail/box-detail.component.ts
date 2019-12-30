@@ -45,19 +45,22 @@ export class BoxDetailComponent implements OnInit {
   }
 
   destroyFile(fileId: number) {
-    this.fileService.getFile(fileId).subscribe((file: File) => {
-      const boxId: string = this.route.snapshot.params['id'];
-      file.destroyed = true;
-      this.fileService.updateFile(fileId, file).subscribe(next => {
-        this.alertify.success('File destroyed');
-        this.router.navigateByUrl('/boxes/' + boxId, { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/boxes/' + boxId]);
+    if (confirm('Are you sure to destroy this file')) {
+      this.fileService.getFile(fileId).subscribe((file: File) => {
+        const boxId: string = this.route.snapshot.params['id'];
+        console.log('/boxes/' + boxId);
+        file.destroyed = true;
+        this.fileService.updateFile(fileId, file).subscribe(next => {
+          this.alertify.success('File destroyed');
+          this.router.navigateByUrl('/boxes/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['/boxes/' + boxId]);
+          });
+        }, error => {
+          this.alertify.error(error);
         });
       }, error => {
         this.alertify.error(error);
       });
-    }, error => {
-      this.alertify.error(error);
-    });
+    }
   }
 }
