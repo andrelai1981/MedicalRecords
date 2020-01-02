@@ -52,8 +52,10 @@ namespace MedicalRecords.API.Controllers
       _mapper.Map(fileForUpdateDto, fileToUpdate);
 
       var client = await _repo.GetClient(fileForUpdateDto.ClientId);
+      var box = await _repo.GetBox(fileForUpdateDto.BoxId);
 
       fileToUpdate.Client = client;
+      fileToUpdate.Box = box;
 
       if (await _repo.SaveAll())
         return NoContent();

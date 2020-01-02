@@ -43,7 +43,7 @@ export function tokenGetter() {
       FileNewComponent,
       UserListComponent,
       BoxEditComponent,
-      FileEditComponent,
+      FileEditComponent
    ],
    imports: [
       BrowserModule,

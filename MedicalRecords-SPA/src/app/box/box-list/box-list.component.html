@@ -14,6 +14,8 @@
           <th scope="col">From</th>
           <th scope="col">To</th>
           <th scope="col">Description</th>
+          <th scope="col">Destroyed</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -26,6 +28,9 @@
           <td>{{ box.from }}</td>
           <td>{{ box.to }}</td>
           <td>{{ box.description }}</td>
+          <td><div *ngIf="box?.destroyed; else elseBlock">Yes</div></td>
+            <ng-template #elseBlock>No</ng-template>
+            <td><i *ngIf="box?.destroyed == false"  class="fa fa-trash"></i></td>
         </tr>
       </tbody>
     </table>

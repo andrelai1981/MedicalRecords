@@ -22,6 +22,8 @@ export class FileEditComponent implements OnInit {
   box: Box;
   boxId: number;
   barcodeNumber: number;
+  boxes: Box[];
+
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
     if (this.editForm.dirty) {
@@ -36,6 +38,7 @@ export class FileEditComponent implements OnInit {
       this.file = data['file'];
     });
     this.getClients();
+    this.getBarcodeNumbers();
   }
 
   updateFile() {
@@ -58,5 +61,14 @@ export class FileEditComponent implements OnInit {
     }, error => {
       this.alertify.error(error);
     });
+  }
+
+  getBarcodeNumbers() {
+    this.boxService.getBoxes().subscribe((boxes: Box[]) => {
+      this.boxes = boxes;
+      console.log(this.boxes);
+    }, error => {
+      this.alertify.error(error);
+    })
   }
 }
