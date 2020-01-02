@@ -69,6 +69,6 @@ export class FileEditComponent implements OnInit {
       console.log(this.boxes);
     }, error => {
       this.alertify.error(error);
-    })
+    });
   }
 }

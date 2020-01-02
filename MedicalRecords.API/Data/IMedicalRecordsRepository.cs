@@ -12,6 +12,7 @@ namespace MedicalRecords.API.Data
         Task<IEnumerable<Box>> GetBoxes();
         Task<Box> GetBox(int id);
         Task<bool> BoxExists(long barcodeNum);
+        Task<int> GetNumberOfFilesInBox(int id);
         Task<Box> CreateBox(Box box);
         Task<IEnumerable<User>> GetUsers();
         Task<User> GetUser(int id);

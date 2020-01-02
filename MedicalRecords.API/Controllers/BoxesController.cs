@@ -31,6 +31,11 @@ namespace MedicalRecords.API.Controllers
 
         var boxesToReturn = _mapper.Map<IEnumerable<BoxForListDto>>(boxes);
 
+        foreach (BoxForListDto box in boxesToReturn)
+        {
+          box.FileCount = await _repo.GetNumberOfFilesInBox(box.BoxId);
+        }
+
         return Ok(boxesToReturn);
     }
 
@@ -40,7 +45,6 @@ namespace MedicalRecords.API.Controllers
       var box = await _repo.GetBox(id);
 
       var boxToReturn = _mapper.Map<BoxForDetailedDto>(box);
-      
       return Ok(boxToReturn);
     }
 
@@ -84,7 +88,8 @@ namespace MedicalRecords.API.Controllers
     public async Task<IActionResult> UpdateBox(int id, BoxForUpdateDto boxForUpdateDto)
     {
       var boxToUpdate = await _repo.GetBox(id);
-
+      var numberOfFilesInBox = await _repo.GetNumberOfFilesInBox(id);
+      
       _mapper.Map(boxForUpdateDto, boxToUpdate);
 
       var dept = await _repo.GetDepartment(boxForUpdateDto.Department);
@@ -92,6 +97,9 @@ namespace MedicalRecords.API.Controllers
 
       boxToUpdate.Department = dept;
       boxToUpdate.County = county;
+
+      if (boxToUpdate.Destroyed == true && numberOfFilesInBox > 0) 
+        return BadRequest("Cannot destroy a box if more than 1 file exists in that box.");
 
       if (await _repo.SaveAll())
         return NoContent();

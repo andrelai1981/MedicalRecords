@@ -155,5 +155,14 @@ namespace MedicalRecords.API.Data
 
       return client;
     }
+
+    public async Task<int> GetNumberOfFilesInBox(int id)
+    {
+      var numberOfFiles = await _context.Files
+        .Where(file => file.Box.BoxId == id && file.Destroyed == false)
+        .CountAsync();
+
+      return numberOfFiles;
+    }
   }
 }

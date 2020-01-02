@@ -12,6 +12,7 @@ namespace MedicalRecords.API.Dto
         public string From { get; set; }
         public string To { get; set; }
         public string Description { get; set; }
+        public int FileCount { get; set; }
         public bool Destroyed { get; set; }
     }
 }
