@@ -41,6 +41,7 @@ namespace MedicalRecords.API.Data
         .Include(d => d.Department)
         .Include(c => c.County)
         .Include(f => f.Files)
+        .OrderBy(b => b.BarcodeNum)
         .ToListAsync();
 
       return boxes;
@@ -88,6 +89,8 @@ namespace MedicalRecords.API.Data
       var files = await _context.Files
         .Include(b => b.Box)
         .Include(c => c.Client)
+        .OrderBy(b => b.Box.BarcodeNum)
+        .ThenBy(f => f.FileId)
         .ToListAsync();
 
       return files;
