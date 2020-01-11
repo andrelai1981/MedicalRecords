@@ -35,17 +35,11 @@ export class BoxDetailComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.box = data['box'];
     });
-    this.boxService.getCounty(this.box.county).subscribe(response => {
-      this.county = response;
-    });
-    this.boxService.getDepartment(this.box.department).subscribe(response => {
-      this.department = response;
-    });
     this.getBoxId.emit(this.route.snapshot.params['id']);
   }
 
   destroyFile(fileId: number) {
-    if (confirm('Are you sure to destroy this file')) {
+    this.alertify.confirm('Are you sure you want to destroy this file?', () => {
       this.fileService.getFile(fileId).subscribe((file: File) => {
         const boxId: string = this.route.snapshot.params['id'];
         console.log('/boxes/' + boxId);
@@ -61,6 +55,6 @@ export class BoxDetailComponent implements OnInit {
       }, error => {
         this.alertify.error(error);
       });
-    }
+    });
   }
 }

@@ -36,7 +36,10 @@ namespace MedicalRecords.API.Helpers
                 .ForMember(dest => dest.Department, opt =>
                 {
                     opt.MapFrom(src => src.Department.DepartmentId);
-                   
+                })
+                .ForMember(dest => dest.DepartmentName, opt =>
+                {
+                    opt.MapFrom(src => src.Department.DepartmentName);
                 })
                 .ForMember(dest => dest.County, opt =>
                 {

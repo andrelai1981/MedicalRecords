@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MedicalRecords.API.Data;
 using MedicalRecords.API.Dto;
+using MedicalRecords.API.Helpers;
 using MedicalRecords.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,11 +26,13 @@ namespace MedicalRecords.API.Controllers
     }
     // GET api/files
     [HttpGet]
-    public async Task<IActionResult> GetFiles()
+    public async Task<IActionResult> GetFiles([FromQuery]FileParams fileParams)
     {
-      var files = await _repo.GetFiles();
+      var files = await _repo.GetFiles(fileParams);
 
       var filesToReturn = _mapper.Map<IEnumerable<FileForListDto>>(files);
+
+      Response.AddPagination(files.CurrentPage, files.PageSize, files.TotalCount, files.TotalPages);
 
       return Ok(filesToReturn);
     }

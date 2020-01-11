@@ -12,6 +12,10 @@ import { BoxEditComponent } from './box/box-edit/box-edit.component';
 import { BoxEditResolver } from './_resolvers/box-edit.resolver';
 import { FileEditComponent } from './file/file-edit/file-edit.component';
 import { FileEditResolver } from './_resolvers/file-edit.resolver';
+import { DepartmentListResolver } from './_resolvers/department-list.resolver';
+import { CountyListResolver } from './_resolvers/county-list.resolver';
+import { BoxListResolver } from './_resolvers/box-list.resolver';
+import { FileListResolver } from './_resolvers/file-list.resolver';
 
 
 export const appRoutes: Routes = [
@@ -21,12 +25,14 @@ export const appRoutes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
-      { path: 'boxes', component: BoxListComponent},
-      { path: 'boxes/new', component: BoxNewComponent},
+      { path: 'boxes', component: BoxListComponent, resolve: {boxes: BoxListResolver
+          , departments: DepartmentListResolver, counties: CountyListResolver}},
+      { path: 'boxes/new', component: BoxNewComponent, resolve: {departments: DepartmentListResolver, counties: CountyListResolver}},
       { path: 'boxes/:id', component: BoxDetailComponent, resolve: {box: BoxDetailResolver}},
-      { path: 'boxes/:id/edit', component: BoxEditComponent, resolve: {box: BoxEditResolver}},
-      { path: 'files', component: FileListComponent},
-      { path: 'files/:id/edit', component: FileEditComponent, resolve: {file: FileEditResolver}},
+      { path: 'boxes/:id/edit', component: BoxEditComponent, resolve: {box: BoxEditResolver
+          , departments: DepartmentListResolver, counties: CountyListResolver}},
+      { path: 'files', component: FileListComponent, resolve: {files: FileListResolver}},
+      { path: 'files/:id/edit', component: FileEditComponent, resolve: {file: FileEditResolver, boxes: BoxListResolver}},
       { path: 'boxes/:id/files/new', component: FileNewComponent},
       { path: 'users', component: UserListComponent},
     ]

@@ -2,7 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { BoxService } from 'src/app/_services/box.service';
 import { Box } from 'src/app/_models/Box';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
 
 @Component({
   selector: 'app-box-list',
@@ -11,10 +12,16 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class BoxListComponent implements OnInit {
   boxes: any = {};
+  boxParams: any = {};
+  pagination: Pagination;
   addBoxMode = false;
   mySubscription: any;
+  destroyedList = [{value: 0, display: 'Show Not Destroyed'}, {value: 1, display: 'Show Destroyed'}, {value: 2, display: 'Show All'}];
+  counties: any;
+  departments: any;
 
-  constructor(private boxService: BoxService, private alertify: AlertifyService, private router: Router) {
+  constructor(private boxService: BoxService, private alertify: AlertifyService, private router: Router,
+    private route: ActivatedRoute) {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
@@ -27,9 +34,47 @@ export class BoxListComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.boxParams.showDestroyed = 0;
+    this.boxParams.barcodeNum = 0;
+    this.boxParams.departmentId = 0;
+    this.boxParams.countyId = 0;
+
+    this.route.data.subscribe(data => {
+      this.boxes = data['boxes'].result;
+      this.pagination = data['boxes'].pagination;
+    });
+
+    this.getDepartments();
+    this.getCounties();
+  }
+
+  getCounties() {
+    this.route.data.subscribe(data => {
+      this.counties = data['counties'];
+    }, error => {
+      this.alertify.error(error);
+    });
+  }
+
+  getDepartments() {
+    this.route.data.subscribe(data => {
+      this.departments = data['departments'];
+    }, error => {
+      this.alertify.error(error);
+    });
+  }
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
     this.loadBoxes();
   }
 
+  resetFilters() {
+    // this.boxParams.showDestroyed = 0;
+    this.boxParams.countyId = 0;
+    this.boxParams.departmentId = 0;
+    this.loadBoxes();
+  }
   addBoxToggle() {
     this.addBoxMode = true;
   }
@@ -39,14 +84,18 @@ export class BoxListComponent implements OnInit {
   }
 
   loadBoxes() {
-    this.boxService.getBoxes().subscribe((boxes: Box[]) => {
-      this.boxes = boxes;
+    this.boxService
+      .getBoxes(this.pagination.currentPage, this.pagination.itemsPerPage, this.boxParams)
+      .subscribe((res: PaginatedResult<Box[]>) => {
+      this.boxes = res.result;
+      this.pagination = res.pagination;
     }, error => {
       this.alertify.error(error);
     });
   }
+
   destroyBox(boxId: number) {
-    if (confirm('Are you sure to destroy this box')) {
+    this.alertify.confirm('Are you sure you want to destroy this box?', () => {
       this.boxService.getBox(boxId).subscribe((box: Box) => {
         box.destroyed = true;
         this.boxService.updateBox(boxId, box).subscribe(next => {
@@ -60,6 +109,6 @@ export class BoxListComponent implements OnInit {
       }, error => {
         this.alertify.error(error);
       });
-    }
-}
+    });
+  }
 }

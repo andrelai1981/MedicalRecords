@@ -7,6 +7,7 @@ import { FileService } from 'src/app/_services/file.service';
 import { Box } from 'src/app/_models/Box';
 import { BoxService } from 'src/app/_services/box.service';
 import { Client } from 'src/app/_models/client';
+import { Pagination } from 'src/app/_models/pagination';
 
 @Component({
   selector: 'app-file-edit',
@@ -23,6 +24,7 @@ export class FileEditComponent implements OnInit {
   boxId: number;
   barcodeNumber: number;
   boxes: Box[];
+  pagination: Pagination;
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
@@ -42,7 +44,6 @@ export class FileEditComponent implements OnInit {
   }
 
   updateFile() {
-    console.log(this.file);
     this.fileService.updateFile(this.file.fileId, this.file).subscribe(next => {
       this.alertify.success('File update sucessfully');
       this.editForm.reset(this.file);
@@ -64,11 +65,8 @@ export class FileEditComponent implements OnInit {
   }
 
   getBarcodeNumbers() {
-    this.boxService.getBoxes().subscribe((boxes: Box[]) => {
-      this.boxes = boxes;
-      console.log(this.boxes);
-    }, error => {
-      this.alertify.error(error);
+    this.route.data.subscribe(data => {
+      this.boxes = data['boxes'].result;
     });
   }
 }

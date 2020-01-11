@@ -14,8 +14,8 @@
             <select
               class="form-control"
               name="department"
-              [(ngModel)]="box.department"
-            >
+              [(ngModel)]="box.department">
+              <option value='0'></option>
               <option
                 *ngFor="let department of departments"
                 [value]="department.departmentId"
@@ -29,6 +29,7 @@
           <div class="form-group">
             <label for="county">Counties</label>
             <select class="form-control" name="county" [(ngModel)]="box.county">
+              <option value='0'></option>
               <option *ngFor="let county of counties" [value]="county.countyId">{{
                 county.countyName
               }}</option>

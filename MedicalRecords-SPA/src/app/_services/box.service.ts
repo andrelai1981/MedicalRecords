@@ -3,9 +3,11 @@ import { Box } from '../_models/Box';
 import { County } from '../_models/County';
 import { Department } from '../_models/department';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
+import { PaginatedResult } from '../_models/pagination';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +19,33 @@ export class BoxService {
 
   constructor(private http: HttpClient) { }
 
-  getBoxes(): Observable<Box[]> {
-    return this.http.get<Box[]>(this.baseUrl + 'boxes');
+  getBoxes(page?, itemsPerPage?, boxParams?): Observable<PaginatedResult<Box[]>> {
+    const paginatedResult: PaginatedResult<Box[]> = new PaginatedResult<Box[]>();
+
+    let params = new HttpParams();
+
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+
+    if (boxParams != null) {
+      params = params.append('barcodeNum', boxParams.barcodeNum);
+      params = params.append('departmentId', boxParams.departmentId);
+      params = params.append('countyId', boxParams.countyId);
+      params = params.append('showDestroyed', boxParams.showDestroyed);
+    }
+
+    return this.http.get<Box[]>(this.baseUrl + 'boxes', {observe: 'response', params})
+      .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          return paginatedResult;
+        })
+      );
   }
 
   getBox(id): Observable<Box> {

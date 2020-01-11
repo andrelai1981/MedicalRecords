@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule, PaginationModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 
@@ -26,6 +26,10 @@ import { BoxEditComponent } from './box/box-edit/box-edit.component';
 import { BoxEditResolver } from './_resolvers/box-edit.resolver';
 import { FileEditComponent } from './file/file-edit/file-edit.component';
 import { FileEditResolver } from './_resolvers/file-edit.resolver';
+import { DepartmentListResolver } from './_resolvers/department-list.resolver';
+import { CountyListResolver } from './_resolvers/county-list.resolver';
+import { BoxListResolver } from './_resolvers/box-list.resolver';
+import { FileListResolver } from './_resolvers/file-list.resolver';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -50,6 +54,7 @@ export function tokenGetter() {
       HttpClientModule,
       FormsModule,
       BsDropdownModule.forRoot(),
+      PaginationModule.forRoot(),
       RouterModule.forRoot(appRoutes, {onSameUrlNavigation: 'reload'}),
       JwtModule.forRoot({
          config: {
@@ -65,9 +70,13 @@ export function tokenGetter() {
       ErrorInterceptorProvider,
       AlertifyService,
       AuthGuard,
+      BoxListResolver,
+      FileListResolver,
       BoxDetailResolver,
       BoxEditResolver,
-      FileEditResolver
+      FileEditResolver,
+      DepartmentListResolver,
+      CountyListResolver
    ],
    bootstrap: [
       AppComponent

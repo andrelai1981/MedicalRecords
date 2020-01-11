@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MedicalRecords.API.Helpers;
 using MedicalRecords.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,16 +36,34 @@ namespace MedicalRecords.API.Data
       return box;
     }
 
-    public async Task<IEnumerable<Box>> GetBoxes()
+    public async Task<PagedList<Box>> GetBoxes(BoxParams boxParams)
     {
-      var boxes = await _context.Boxes
+      var boxes = _context.Boxes
         .Include(d => d.Department)
         .Include(c => c.County)
         .Include(f => f.Files)
         .OrderBy(b => b.BarcodeNum)
-        .ToListAsync();
+        .AsQueryable();
 
-      return boxes;
+      if (boxParams.BarcodeNum != 0) {
+        boxes = boxes.Where(f => f.BarcodeNum == boxParams.BarcodeNum); 
+      }
+      if (boxParams.DepartmentId != 0) {
+        boxes = boxes.Where(f => f.Department.DepartmentId == boxParams.DepartmentId); 
+      }
+      if (boxParams.CountyId != 0) {
+        boxes = boxes.Where(f => f.County.CountyId == boxParams.CountyId); 
+      }
+      if (boxParams.ShowDestroyed != 2) {
+        if (boxParams.ShowDestroyed == 0) {
+          boxes = boxes.Where(f => f.Destroyed == false); 
+        }
+        else if (boxParams.ShowDestroyed == 1) {
+          boxes = boxes.Where(f => f.Destroyed == true); 
+        }
+      }
+
+      return await PagedList<Box>.CreateAsync(boxes, boxParams.PageNumber, boxParams.PageSize);
     }
 
     public async Task<IEnumerable<Department>> GetDepartments()
@@ -84,16 +103,31 @@ namespace MedicalRecords.API.Data
       return user;
     }
 
-    public async Task<IEnumerable<File>> GetFiles()
+    public async Task<PagedList<File>> GetFiles(FileParams fileParams)
     {
-      var files = await _context.Files
+      var files = _context.Files
         .Include(b => b.Box)
         .Include(c => c.Client)
         .OrderBy(b => b.Box.BarcodeNum)
         .ThenBy(f => f.FileId)
-        .ToListAsync();
+        .AsQueryable();
+      
+      if (fileParams.BarcodeNum != 0) {
+        files = files.Where(f => f.Box.BarcodeNum == fileParams.BarcodeNum); 
+      }
+      if (fileParams.ClientId != 0) {
+        files = files.Where(f => f.Client.ClientId == fileParams.ClientId); 
+      }
+      if (fileParams.ShowDestroyed != 2) {
+        if (fileParams.ShowDestroyed == 0) {
+          files = files.Where(f => f.Destroyed == false); 
+        }
+        else if (fileParams.ShowDestroyed == 1) {
+          files = files.Where(f => f.Destroyed == true); 
+        }
+      }
 
-      return files;
+      return await PagedList<File>.CreateAsync(files, fileParams.PageNumber, fileParams.PageSize);
     }
     // public async Task<IEnumerable<File>> GetFilesForBox(int id)
     // {

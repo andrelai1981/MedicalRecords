@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System;
+using MedicalRecords.API.Helpers;
 
 namespace MedicalRecords.API.Controllers
 {
@@ -25,16 +26,13 @@ namespace MedicalRecords.API.Controllers
     }
     // GET api/boxes
     [HttpGet]
-    public async Task<IActionResult> GetBoxes() 
+    public async Task<IActionResult> GetBoxes([FromQuery]BoxParams boxParams) 
     {
-        var boxes = await _repo.GetBoxes();
+        var boxes = await _repo.GetBoxes(boxParams);
 
         var boxesToReturn = _mapper.Map<IEnumerable<BoxForListDto>>(boxes);
 
-        foreach (BoxForListDto box in boxesToReturn)
-        {
-          box.FileCount = await _repo.GetNumberOfFilesInBox(box.BoxId);
-        }
+        Response.AddPagination(boxes.CurrentPage, boxes.PageSize, boxes.TotalCount, boxes.TotalPages);
 
         return Ok(boxesToReturn);
     }

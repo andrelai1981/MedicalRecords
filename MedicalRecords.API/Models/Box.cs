@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace MedicalRecords.API.Models
 {
@@ -13,6 +14,15 @@ namespace MedicalRecords.API.Models
         public County County {get; set;}
         public ICollection<File> Files { get; set; }
         public bool Destroyed { get; set; }
+        private int fileCount;
+        public int FileCount
+        {
+            get { return Files
+                    .Where(f => f.Destroyed == false)
+                    .Count();
+                }
+        }
+        
         public string Description { get; set; }
         public string From { get; set; }   
         public string To { get; set; }

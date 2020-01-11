@@ -17,6 +17,7 @@ export class BoxEditComponent implements OnInit {
   box: Box;
   counties: County[];
   departments: Department[];
+
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
     if (this.editForm.dirty) {
@@ -44,16 +45,16 @@ export class BoxEditComponent implements OnInit {
   }
 
   getCounties() {
-    this.boxService.getCounties().subscribe(response => {
-      this.counties = response;
+    this.route.data.subscribe(data => {
+      this.counties = data['counties'];
     }, error => {
       this.alertify.error(error);
     });
   }
 
   getDepartments() {
-    this.boxService.getDepartments().subscribe(response => {
-      this.departments = response;
+    this.route.data.subscribe(data => {
+      this.departments = data['departments'];
     }, error => {
       this.alertify.error(error);
     });

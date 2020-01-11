@@ -49,6 +49,7 @@
             name="boxId"
             [(ngModel)] = "file.boxId"
           >
+              <option value="0"></option>
             <option
               *ngFor ="let barcodeNum of boxes"
               [value] = "barcodeNum.boxId"
