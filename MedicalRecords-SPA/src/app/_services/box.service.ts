@@ -30,10 +30,26 @@ export class BoxService {
     }
 
     if (boxParams != null) {
-      params = params.append('barcodeNum', boxParams.barcodeNum);
-      params = params.append('departmentId', boxParams.departmentId);
-      params = params.append('countyId', boxParams.countyId);
-      params = params.append('showDestroyed', boxParams.showDestroyed);
+      if (boxParams.barcodeNum == null) {
+        params = params.append('barcodeNum', '0');
+      } else {
+        params = params.append('barcodeNum', boxParams.barcodeNum);
+      }
+      if (boxParams.departmentId == null) {
+        params = params.append('departmentId', '0');
+      } else {
+        params = params.append('departmentId', boxParams.departmentId);
+      }
+      if (boxParams.countyId == null) {
+        params = params.append('countyId', '0');
+      } else {
+        params = params.append('countyId', boxParams.countyId);
+      }
+      if (boxParams.showDestroyed == null) {
+        params = params.append('showDestroyed', '0');
+      } else {
+        params = params.append('showDestroyed', boxParams.showDestroyed);
+      }
     }
 
     return this.http.get<Box[]>(this.baseUrl + 'boxes', {observe: 'response', params})

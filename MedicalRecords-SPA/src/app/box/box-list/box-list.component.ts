@@ -34,8 +34,8 @@ export class BoxListComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.boxParams.showDestroyed = 0;
-    this.boxParams.barcodeNum = 0;
+    this.boxParams.showDestroyed = 0;
+    this.boxParams.barcodeNum = null;
     this.boxParams.departmentId = 0;
     this.boxParams.countyId = 0;
 
@@ -70,7 +70,8 @@ export class BoxListComponent implements OnInit {
   }
 
   resetFilters() {
-    // this.boxParams.showDestroyed = 0;
+    this.boxParams.showDestroyed = 0;
+    this.boxParams.barcodeNum = null;
     this.boxParams.countyId = 0;
     this.boxParams.departmentId = 0;
     this.loadBoxes();

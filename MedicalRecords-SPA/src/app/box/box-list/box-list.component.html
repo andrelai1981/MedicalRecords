@@ -1,11 +1,8 @@
 
 <div class="container">
   <div class="container mt-3">
-    <button class="btn btn-success" [routerLink]="['/boxes/new']">
-      Create New Box
-    </button>
-    <div class="text-center mt-3">
-      <h2>Your matches - {{pagination.totalItems}} found</h2>
+    <div class="text-left mt-3">
+      <h2>Boxes ({{pagination.totalItems}} found)</h2>
     </div>
 
       <form class="form-inline" #form="ngForm" (ngSubmit) = "loadBoxes()" novalidate>
@@ -63,19 +60,24 @@
             </option>
           </select>
         </div>
-        <div class="mt-3">
-          <button type="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
-          <button type="button" class="btn btn-info" (click) = "resetFilters()" style="margin-left:10px">Reset Filter</button>
+        <div class="form-group px-3">
+          <button type="submit" class="btn btn-primary btn-sm" style="margin-left:10px">Apply</button>
+          <button type="button" class="btn btn-info btn-sm" (click) = "resetFilters()" style="margin-left:10px">Reset</button>
         </div>
-      <!-- <div class="col">
-        <div class="btn-group float-right">
-          <button type="button" name="orderBy" class="btn btn-primary" [(ngModel)] = "boxParams.orderBy" (click) = "loadBoxes()" 
+        <!-- <div class="col">
+          <div class="btn-group float-right">
+            <button type="button" name="orderBy" class="btn btn-primary" [(ngModel)] = "boxParams.orderBy" (click) = "loadBoxes()" 
             btnRadio="lastActive">Last Active</button>
-          <button type="button" name="orderBy" class="btn btn-primary" [(ngModel)] = "boxParams.orderBy" (click) = "loadBoxes()" 
+            <button type="button" name="orderBy" class="btn btn-primary" [(ngModel)] = "boxParams.orderBy" (click) = "loadBoxes()" 
             btnRadio="created">Newest Members</button>
-        </div>
-      </div> -->
-    </form>
+          </div>
+        </div> -->
+      </form>
+    </div>
+  <div class = "container mt-3">
+    <button type="button" class="btn btn-success" style="margin-left:10px" [routerLink]="['/boxes/new']">
+      <i class="fa fa-plus"></i>&nbsp;Add New Box
+    </button>
   </div>
   <div class="container mt-3">
     <table class="table table-striped">

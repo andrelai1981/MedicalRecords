@@ -32,8 +32,8 @@ export class FileListComponent implements OnInit {
 
   ngOnInit() {
     this.fileParams.showDestroyed = 0;
-    this.fileParams.barcodeNum = 0;
-    this.fileParams.clientId = 0;
+    this.fileParams.barcodeNum = null;
+    this.fileParams.clientId = null;
 
     this.route.data.subscribe(data => {
       this.files = data['files'].result;
@@ -61,9 +61,9 @@ export class FileListComponent implements OnInit {
   }
 
   resetFilters() {
-    this.fileParams.showDestroyed = undefined;
-    this.fileParams.barcodeNum = 0;
-    this.fileParams.clientId = 0;
+    this.fileParams.showDestroyed = 0;
+    this.fileParams.barcodeNum = null;
+    this.fileParams.clientId = null;
     this.loadFiles();
   }
 

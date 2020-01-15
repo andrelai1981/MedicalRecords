@@ -30,8 +30,19 @@ export class FileService {
     }
 
     if (fileParams != null) {
-      params = params.append('barcodeNum', fileParams.barcodeNum);
-      params = params.append('clientId', fileParams.clientId);
+
+      if (fileParams.barcodeNum == null) {
+        params = params.append('barcodeNum', '0');
+      } else {
+        params = params.append('barcodeNum', fileParams.barcodeNum);
+      }
+
+      if (fileParams.clientId == null) {
+        params = params.append('clientId', '0');
+      } else {
+        params = params.append('clientId', fileParams.clientId);
+      }
+
       params = params.append('showDestroyed', fileParams.showDestroyed);
     }
 
