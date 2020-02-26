@@ -8,5 +8,6 @@ namespace MedicalRecords.API.Models
       public string LastName { get; set; }
       public string FirstName { get; set; }
       public DateTime DOB { get; set; }
+      public DateTime LastDateOfService { get; set; }
   }
 }

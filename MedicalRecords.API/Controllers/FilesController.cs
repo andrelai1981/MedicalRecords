@@ -52,6 +52,11 @@ namespace MedicalRecords.API.Controllers
     {
       var fileToUpdate = await _repo.GetFile(id);
 
+      if (fileForUpdateDto.Destroyed && fileToUpdate.Destroyed)
+        return BadRequest("File is already destroyed.");
+
+      fileForUpdateDto.ActualDestructionDate = DateTime.Now;
+
       _mapper.Map(fileForUpdateDto, fileToUpdate);
 
       var client = await _repo.GetClient(fileForUpdateDto.ClientId);
@@ -59,6 +64,10 @@ namespace MedicalRecords.API.Controllers
 
       fileToUpdate.Client = client;
       fileToUpdate.Box = box;
+
+      if (fileToUpdate.Destroyed == true
+          && fileToUpdate.AnticipatedDestructionDate > DateTime.Today)
+        return BadRequest("Cannot delete file that has an antipated destruction date in the future.");
 
       if (await _repo.SaveAll())
         return NoContent();

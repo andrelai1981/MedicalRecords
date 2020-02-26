@@ -88,6 +88,11 @@ namespace MedicalRecords.API.Controllers
       var boxToUpdate = await _repo.GetBox(id);
       var numberOfFilesInBox = await _repo.GetNumberOfFilesInBox(id);
       
+      if (boxForUpdateDto.Destroyed && boxToUpdate.Destroyed)
+        return BadRequest("Box is already destroyed");
+
+      boxForUpdateDto.ActualDestructionDate = DateTime.Now;
+
       _mapper.Map(boxForUpdateDto, boxToUpdate);
 
       var dept = await _repo.GetDepartment(boxForUpdateDto.Department);

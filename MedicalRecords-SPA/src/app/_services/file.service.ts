@@ -44,6 +44,8 @@ export class FileService {
       }
 
       params = params.append('showDestroyed', fileParams.showDestroyed);
+
+      params = params.append('orderBy', fileParams.orderBy);
     }
 
     return this.http.get<File[]>(this.baseUrl + 'files', {observe: 'response', params})

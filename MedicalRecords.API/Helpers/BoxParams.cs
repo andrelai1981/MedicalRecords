@@ -16,6 +16,7 @@ namespace MedicalRecords.API.Helpers
         public int CountyId { get; set; }
         public int ShowDestroyed { get; set; } = 0;
         public long BarcodeNum { get; set; }
+        public string OrderBy { get; set; } 
         
     }
 }

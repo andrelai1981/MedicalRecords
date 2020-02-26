@@ -30,15 +30,23 @@ export class FileListComponent implements OnInit {
     });
   }
 
+  onKeyDown(event) {
+    if (!isFinite(event.key) && event.key !== 'Backspace' && event.key !== 'Delete' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+      event.preventDefault();
+    }
+  }
+
   ngOnInit() {
     this.fileParams.showDestroyed = 0;
     this.fileParams.barcodeNum = null;
     this.fileParams.clientId = null;
+    this.fileParams.orderBy = 'barcodeNum';
 
     this.route.data.subscribe(data => {
       this.files = data['files'].result;
       this.pagination = data['files'].pagination;
     });
+
   }
 
   loadFiles() {
@@ -68,7 +76,6 @@ export class FileListComponent implements OnInit {
   }
 
   destroyFile(fileId: number) {
-
     this.alertify.confirm('Are you sure you want to destroy this file?', () => {
       this.fileService.getFile(fileId).subscribe((file: File) => {
         file.destroyed = true;
@@ -84,6 +91,8 @@ export class FileListComponent implements OnInit {
         this.alertify.error(error);
       });
     });
+
+
 
       // if (confirm('Are you sure to destroy this file')) {
       //   this.fileService.getFile(fileId).subscribe((file: File) => {

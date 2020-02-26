@@ -10,4 +10,5 @@ export interface Box {
   to: string;
   description: string;
   destroyed: boolean;
+  actualDestructionDate: Date;
 }

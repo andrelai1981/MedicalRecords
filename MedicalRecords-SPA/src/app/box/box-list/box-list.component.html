@@ -47,8 +47,8 @@
 
         <div class="form-group px-3">
           <label for="barcodeNum">Barcode #:&nbsp;</label>
-          <input type="number" class="form-control ml-1" style="width: 150px" id="barcodeNum" 
-            [(ngModel)] = "boxParams.barcodeNum" name="barcodeNum">
+          <input type="text" class="form-control ml-1" style="width: 150px" id="barcodeNum" 
+            [(ngModel)] = "boxParams.barcodeNum" name="barcodeNum" (keydown) = "onKeyDown($event)"> 
         </div> 
 
         <div class="form-group px-3">
@@ -64,20 +64,24 @@
           <button type="submit" class="btn btn-primary btn-sm" style="margin-left:10px">Apply</button>
           <button type="button" class="btn btn-info btn-sm" (click) = "resetFilters()" style="margin-left:10px">Reset</button>
         </div>
-        <!-- <div class="col">
-          <div class="btn-group float-right">
-            <button type="button" name="orderBy" class="btn btn-primary" [(ngModel)] = "boxParams.orderBy" (click) = "loadBoxes()" 
-            btnRadio="lastActive">Last Active</button>
-            <button type="button" name="orderBy" class="btn btn-primary" [(ngModel)] = "boxParams.orderBy" (click) = "loadBoxes()" 
-            btnRadio="created">Newest Members</button>
-          </div>
-        </div> -->
+        
       </form>
     </div>
   <div class = "container mt-3">
     <button type="button" class="btn btn-success" style="margin-left:10px" [routerLink]="['/boxes/new']">
       <i class="fa fa-plus"></i>&nbsp;Add New Box
     </button>
+      
+      <div class="btn-group float-right">
+        <h4 style="vertical-align: middle;">Sort By:&nbsp;</h4>
+        <button type="button" name="orderBy" class="btn btn-primary btn-sm" [(ngModel)] = "boxParams.orderBy" (click) = "loadBoxes()" 
+        btnRadio="department">Department</button>
+        <button type="button" name="orderBy" class="btn btn-primary btn-sm" [(ngModel)] = "boxParams.orderBy" (click) = "loadBoxes()" 
+        btnRadio="county">County</button>
+        <button type="button" name="orderBy" class="btn btn-primary btn-sm" [(ngModel)] = "boxParams.orderBy" (click) = "loadBoxes()" 
+        btnRadio="barcodeNum">Barcode #</button>
+      </div>
+
   </div>
   <div class="container mt-3">
     <table class="table table-striped">
@@ -91,6 +95,7 @@
           <th scope="col">Description</th>
           <th scope="col"># of files in box</th>
           <th scope="col">Destroyed</th>
+          <th scope="col">Destruction Date</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -105,6 +110,7 @@
           <td>{{ box.to }}</td>
           <td>{{ box.description }}</td>
           <td>{{ box.fileCount }}</td>
+          <td>{{ !box.destroyed ?  '' : box.actualDestructionDate | date: 'mediumDate' }}</td>
           <td><div *ngIf="box?.destroyed; else elseBlock">Yes</div></td>
             <ng-template #elseBlock>No</ng-template>
             <td><i *ngIf="box?.destroyed == false"  class="fa fa-trash" (click) = "destroyBox(box.boxId)"></i></td>

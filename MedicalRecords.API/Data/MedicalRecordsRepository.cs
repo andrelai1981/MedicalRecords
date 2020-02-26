@@ -63,6 +63,23 @@ namespace MedicalRecords.API.Data
         }
       }
 
+      if (!string.IsNullOrEmpty(boxParams.OrderBy))
+      {
+        switch(boxParams.OrderBy)
+        {
+          case "department":
+            boxes = boxes.OrderBy(b => b.Department.DepartmentName);
+            break;
+          case "county":
+            boxes = boxes.OrderBy(b => b.County.CountyName);
+            break;
+
+          default:
+            boxes = boxes.OrderBy(b => b.BarcodeNum);
+            break;
+        }
+      }
+
       return await PagedList<Box>.CreateAsync(boxes, boxParams.PageNumber, boxParams.PageSize);
     }
 
@@ -127,17 +144,23 @@ namespace MedicalRecords.API.Data
         }
       }
 
+      if (!string.IsNullOrEmpty(fileParams.OrderBy))
+      {
+        switch(fileParams.OrderBy)
+        {
+          case "clientId":
+            files = files.OrderBy(f => f.Client.ClientId);
+            break;
+
+          default:
+            files = files.OrderBy(b => b.Box.BarcodeNum);
+            break;
+        }
+      }
+
       return await PagedList<File>.CreateAsync(files, fileParams.PageNumber, fileParams.PageSize);
     }
-    // public async Task<IEnumerable<File>> GetFilesForBox(int id)
-    // {
-    //   var files = await _context.Files
-    //     .Where(f => f.Box.BoxId == id)
-    //     .Include(c => c.Client)
-    //     .ToListAsync();
 
-    //   return files;
-    // }
 
     public async Task<File> GetFile(int id)
     {

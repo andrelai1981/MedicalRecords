@@ -15,6 +15,7 @@ namespace MedicalRecords.API.Helpers
         public long BarcodeNum { get; set; }
         public int ClientId { get; set; }
         public int ShowDestroyed { get; set; } = 0;
+        public string OrderBy { get; set; }
         
     }
 }

@@ -6,4 +6,6 @@ export interface File {
   destroyed: boolean;
   boxId: number;
   barcodeNum: number;
+  anticipatedDestructionDate: Date;
+  actualDestructionDate: Date;
 }

@@ -50,6 +50,7 @@ export class BoxService {
       } else {
         params = params.append('showDestroyed', boxParams.showDestroyed);
       }
+      params = params.append('orderBy', boxParams.orderBy);
     }
 
     return this.http.get<Box[]>(this.baseUrl + 'boxes', {observe: 'response', params})

@@ -1,9 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { BoxService } from 'src/app/_services/box.service';
 import { Box } from 'src/app/_models/Box';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
+import { isNumber } from 'util';
 
 @Component({
   selector: 'app-box-list',
@@ -33,11 +34,18 @@ export class BoxListComponent implements OnInit {
     });
   }
 
+  onKeyDown(event) {
+    if (!isFinite(event.key) && event.key !== 'Backspace' && event.key !== 'Delete' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+      event.preventDefault();
+    }
+  }
+
   ngOnInit() {
     this.boxParams.showDestroyed = 0;
     this.boxParams.barcodeNum = null;
     this.boxParams.departmentId = 0;
     this.boxParams.countyId = 0;
+    this.boxParams.orderBy = 'barcodeNum';
 
     this.route.data.subscribe(data => {
       this.boxes = data['boxes'].result;
@@ -46,6 +54,13 @@ export class BoxListComponent implements OnInit {
 
     this.getDepartments();
     this.getCounties();
+    // document.querySelector('#barcodeNum').addEventListener('keydown', KeyboardEvent => {
+    //   if ((KeyboardEvent.keyCode < 48 || KeyboardEvent.keyCode > 57)
+    //       && (KeyboardEvent.keyCode < 96 || KeyboardEvent.keyCode > 105)
+    //       && KeyboardEvent.keyCode != 8) {
+    //       KeyboardEvent.preventDefault();
+    //   }
+    // });
   }
 
   getCounties() {
