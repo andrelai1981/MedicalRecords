@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MedicalRecords.API.Models;
@@ -16,5 +17,6 @@ namespace MedicalRecords.API.Dto
     public string Description { get; set; }
     public ICollection<FileForBoxListDto> Files { get; set; }
     public bool Destroyed { get; set; }
+    public DateTime? ActualDestructionDate { get; set; }
   }
 }

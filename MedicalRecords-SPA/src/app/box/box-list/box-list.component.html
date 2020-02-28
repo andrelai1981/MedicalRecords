@@ -110,9 +110,9 @@
           <td>{{ box.to }}</td>
           <td>{{ box.description }}</td>
           <td>{{ box.fileCount }}</td>
-          <td>{{ !box.destroyed ?  '' : box.actualDestructionDate | date: 'mediumDate' }}</td>
           <td><div *ngIf="box?.destroyed; else elseBlock">Yes</div></td>
-            <ng-template #elseBlock>No</ng-template>
+          <ng-template #elseBlock>No</ng-template>
+          <td>{{ !box.destroyed ?  '' : box.actualDestructionDate | date: 'mediumDate' }}</td>
             <td><i *ngIf="box?.destroyed == false"  class="fa fa-trash" (click) = "destroyBox(box.boxId)"></i></td>
         </tr>
       </tbody>

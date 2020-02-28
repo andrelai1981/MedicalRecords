@@ -8,7 +8,7 @@ namespace MedicalRecords.API.Controllers
         public string Description { get; set; }
         public bool Destroyed { get; set; }
         public int BoxId { get; set; }
-        public DateTime AnticipatedDestructionDate { get; set; }
-        public DateTime ActualDestructionDate { get; set; }
+        public DateTime? AnticipatedDestructionDate { get; set; }
+        public DateTime? ActualDestructionDate { get; set; }
   }
 }

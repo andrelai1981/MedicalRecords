@@ -32,10 +32,7 @@
               [(ngModel)]="file.description"
             />
           </div>
-          <div class="form-group">
-              <input type="checkbox" [(ngModel)] ="file.destroyed" name ="destroyed">
-              <label for = "destroyed">Destroyed</label>
-          </div>
+      
           <div class="form-group">
             <label for="barcodeNum">Barcode #</label>
             <!-- <input
@@ -55,6 +52,28 @@
               [value] = "barcodeNum.boxId"
               > {{barcodeNum.barcodeNum}}</option>
           </select>
+          </div>
+          <div class="form-group">
+            <label for="actualDestructionDate">Actual Destruction Date</label>
+            <input
+              type="date"
+              class="form-control"
+              name="actualDestructionDate"
+              [ngModel]="file.actualDestructionDate | date:'yyyy-MM-dd'"
+              (ngModelChange)="file.actualDestructionDate = $event"
+              [disabled] = "file.destroyed"
+            />
+          </div>
+          <div class="form-group">
+            <label for="anticipatedDestructionDate">Anticipated Destruction Date</label>
+            <input
+              type="date"
+              class="form-control"
+              name="anticipatedDestructionDate"
+              [ngModel]="file.anticipatedDestructionDate | date:'yyyy-MM-dd'"
+              (ngModelChange)="file.anticipatedDestructionDate = $event"
+              disabled
+            />
           </div>
     
           <!-- <div class="form-group">

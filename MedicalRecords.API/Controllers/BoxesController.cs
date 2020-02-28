@@ -90,8 +90,18 @@ namespace MedicalRecords.API.Controllers
       
       if (boxForUpdateDto.Destroyed && boxToUpdate.Destroyed)
         return BadRequest("Box is already destroyed");
+      
+      // if user registers a destruction date and the box in the db is currently not destroyed, mark for destruction -- user is destroying the box
+      if (boxForUpdateDto.ActualDestructionDate != null && !boxToUpdate.Destroyed)
+        boxForUpdateDto.Destroyed = true;
+      // if user registers clears the actual destruction date and the box in the db is currently destroyed, mark for restoration -- user is reversing the destruction
+      else if (boxForUpdateDto.ActualDestructionDate == null && boxToUpdate.Destroyed)
+        boxForUpdateDto.Destroyed = false;
 
-      boxForUpdateDto.ActualDestructionDate = DateTime.Now;
+      if (boxForUpdateDto.ActualDestructionDate == null)
+      {
+        boxForUpdateDto.ActualDestructionDate = DateTime.Now;
+      }
 
       _mapper.Map(boxForUpdateDto, boxToUpdate);
 

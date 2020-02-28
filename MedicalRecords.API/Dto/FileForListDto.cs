@@ -11,7 +11,7 @@ namespace MedicalRecords.API.Dto
         public bool Destroyed { get; set; }
         public int BoxId { get; set; }
         public int BarcodeNum {get; set; }
-        public DateTime AnticipatedDestructionDate { get; set; }
-        public DateTime ActualDestructionDate { get; set; }
+        public DateTime? AnticipatedDestructionDate { get; set; }
+        public DateTime? ActualDestructionDate { get; set; }
     }
 }
