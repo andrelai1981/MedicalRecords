@@ -15,7 +15,9 @@ export class FileListComponent implements OnInit {
   mySubscription: any;
   fileParams: any = {};
   pagination: Pagination;
-  destroyedList = [{value: 0, display: 'Show Not Destroyed'}, {value: 1, display: 'Show Destroyed'}, {value: 2, display: 'Show All'}];
+  destroyedList = [{value: 0, display: 'Show Not Destroyed'}
+  , {value: 1, display: 'Show Destroyed'}
+  , {value: 2, display: 'Show All'}];
 
   constructor(private fileService: FileService, private alertify: AlertifyService, private router: Router, private route: ActivatedRoute) {
 

@@ -15,8 +15,12 @@ namespace MedicalRecords.API.Data
         Task<bool> BoxExists(long barcodeNum);
         Task<int> GetNumberOfFilesInBox(int id);
         Task<Box> CreateBox(Box box);
+        Task<User> CreateUser(User user, string password);
+        Task<bool> UpdateUser(User user, string password);
         Task<IEnumerable<User>> GetUsers();
         Task<User> GetUser(int id);
+        Task<bool> IsAdmin(int id);
+        Task<bool> UserExists(string userName);
         Task<PagedList<File>> GetFiles(FileParams fileParams);
         Task<File> GetFile(int id);
         Task<File> CreateFile(File file);

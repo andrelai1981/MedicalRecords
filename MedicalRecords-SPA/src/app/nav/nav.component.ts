@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { UserService } from '../_services/user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../_models/user';
 
@@ -14,18 +14,20 @@ import { User } from '../_models/user';
 export class NavComponent implements OnInit {
   model: any = {};
   jwtHelper = new JwtHelperService();
-  admin: any;
+  isAdmin: boolean;
+  user: User;
 
   constructor(public authService: AuthService, private userService: UserService,
-    private alertify: AlertifyService, private router: Router) { }
+    private alertify: AlertifyService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-
+    this.authService.isAdminUser.subscribe(isAdminUser => {
+      this.isAdmin = isAdminUser;
+    });
   }
 
   login() {
     this.authService.login(this.model).subscribe(next => {
-
       this.alertify.success('Logged in successfully');
     }, error => {
       this.alertify.error(error);
@@ -40,22 +42,21 @@ export class NavComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    // this.authService.decodedToken = null;
+    // this.authService.currentUser = null;
     this.alertify.success('Logged out');
     this.router.navigate(['/home']);
   }
 
-  isAdminUser() {
-    const token = localStorage.getItem('token');
-    const userId = this.jwtHelper.decodeToken(token).nameid;
-    this.userService.getUser(userId).subscribe((user: User) => {
-      if (user.isAdmin) {
-        return true;
-      }
-    }, error => {
-      this.alertify.error(error);
-    });
-    // console.log(this.userService.getUser(userId));
-    // debugger;
-    return false;
-  }
+  // isAdminUser() {
+  //   const user = localStorage.getItem('user');
+  //   console.log(user);
+  //   // this.route.data.subscribe(data => {
+  //   //   this.user = data['user'].result;
+  //   // });
+  //   // // console.log(this.userService.getUser(userId));
+  //   // debugger;
+  //   // return false;
+  // }
 }

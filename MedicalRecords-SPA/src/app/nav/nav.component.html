@@ -11,13 +11,13 @@
         <a *ngIf="loggedIn()" [routerLink]="['/files']" class="nav-link">Files</a>
       </li>
       <li class="nav-item">
-        <a *ngIf="loggedIn()" [routerLink]="['/users']" class="nav-link">Users</a>
+        <a *ngIf="loggedIn() && this.isAdmin" [routerLink]="['/users']" class="nav-link">Users</a>
       </li>
     </ul>
   
     <div *ngIf="loggedIn()" class="dropdown" dropdown>
          <a class="dropdown-toggle text-light" dropdownToggle>
-          You are logged in as {{authService.decodedToken?.unique_name}}
+          Welcome {{authService.currentUser.firstName}}!
         </a>
       
         <div class="dropdown-menu mt-3" *dropdownMenu>

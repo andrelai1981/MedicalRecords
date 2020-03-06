@@ -3,9 +3,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 // using AutoMapper;
 using MedicalRecords.API.Data;
-using MedicalRecords.API.Dtos;
+using MedicalRecords.API.Dto;
 using MedicalRecords.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,47 +14,23 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace MedicalRecords.API.Controllers
 {
+  
   [Route("api/[controller]")]
   [ApiController]
   public class AuthController : ControllerBase
   {
     private readonly IAuthRepository _repo;
     private readonly IConfiguration _config;
-    // private readonly IMapper _mapper; 
+   private readonly IMapper _mapper; 
 
-    public AuthController(IAuthRepository repo, IConfiguration config)
+    public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
     {
-    //   _mapper = mapper;
+       _mapper = mapper;
       _config = config;
       _repo = repo;
     }
 
-    [HttpPost("create")]
-    public async Task<IActionResult> Register(UserForCreateDto userForCreateDto)
-    {
 
-      // if ApiController is not used, this is checked against the model/dto
-      // if (!ModelState.IsValid ) {
-      //     return BadRequest(ModelState);
-      // }
-      userForCreateDto.UserName = userForCreateDto.UserName.ToLower();
-
-      if (await _repo.UserExists(userForCreateDto.UserName))
-      {
-        return BadRequest("Username already exists");
-      }
-
-        var userToCreate = new User{
-            UserName = userForCreateDto.UserName
-        };
-
-        var createdUser = await _repo.CreateUser(userToCreate, userForCreateDto.Password);
-
-        return StatusCode(201);
-    //   var userToReturn = _mapper.Map<UserForDetailedDto>(createdUser);
-
-    //   return CreatedAtRoute("GetUser", new {controller = "Users", id = createdUser.UserId}, userToReturn);
-    }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
@@ -86,12 +63,12 @@ namespace MedicalRecords.API.Controllers
 
       var token = tokenHandler.CreateToken(tokenDescriptor);
 
-      // var user = _mapper.Map<UserForListDto>(userFromRepo);
+      var user = _mapper.Map<UserForListDto>(userFromRepo);
 
             return Ok(new
             {
               token = tokenHandler.WriteToken(token),
-
+              user
             });
 
     }

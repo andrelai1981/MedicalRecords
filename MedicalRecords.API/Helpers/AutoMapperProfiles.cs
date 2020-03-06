@@ -14,6 +14,17 @@ namespace MedicalRecords.API.Helpers
             
             CreateMap<User, UserForDetailedDto>();
             
+            CreateMap<UserForCreateDto, User>();
+
+            CreateMap<UserForUpdateDto, User>()
+                .ForMember(dest => dest.PasswordSalt, opt => {
+                    opt.Ignore();
+                })
+                .ForMember(dest => dest.PasswordHash, opt => {
+                    opt.Ignore();
+                });
+
+            
             CreateMap<BoxForCreateDto, Box>()
                 .ForMember(dest => dest.Department, opt => {
                     opt.Ignore();
@@ -63,6 +74,9 @@ namespace MedicalRecords.API.Helpers
                 .ForMember(dest => dest.BoxId, opt =>
                 {
                     opt.MapFrom(src => src.Box.BoxId);
+                })
+                .ForMember(dest => dest.AnticipatedDestructionDate, opt =>{
+                    opt.ResolveUsing(src => src.CalculateAnticipatedDestructionDate());
                 });
 
             CreateMap<File, FileForBoxListDto>()

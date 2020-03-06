@@ -1,4 +1,5 @@
 using System;
+using MedicalRecords.API.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -24,14 +25,19 @@ namespace MedicalRecords.API.Helpers
             response.Headers.Add("Access-Control-Expose-Headers", "Pagination"); 
         }
 
-        public static int CalculateAge(this DateTime theDateTime)
+        public static DateTime CalculateAnticipatedDestructionDate(this File file)
         {
-            var age = DateTime.Today.Year - theDateTime.Year;
-            if (theDateTime.AddYears(age) > DateTime.Today) {
-                age--;
-            }
+            int clientAge = DateTime.Today.Year - file.Client.DOB.Year;
+            DateTime clientTurns18On = file.Client.DOB.AddYears(18);
+            int DestructionPeriod = 7;
+            DateTime DateOfLastServicePlus7 =  file.Client.LastDateOfService.AddYears(DestructionPeriod);
+            DateTime result = DateOfLastServicePlus7;
 
-            return age;
+            if (clientAge < 18 && clientTurns18On >= DateOfLastServicePlus7)
+            {
+                result =  clientTurns18On;
+            }
+            return result;
         }
     }
 }

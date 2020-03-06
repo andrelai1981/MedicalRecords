@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
-// import { User } from '../_models/user';
+import { User } from '../_models/user';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -13,9 +14,15 @@ export class AuthService {
   baseUrl = environment.apiUrl + 'auth/';
   jwtHelper = new JwtHelperService();
   decodedToken: any;
-  // currentUser: User;
+  currentUser: User;
+  isAdmin = new BehaviorSubject<boolean>(false);
+  isAdminUser = this.isAdmin.asObservable();
 
   constructor(private http: HttpClient) { }
+
+  helpMe(isAdmin: boolean) {
+    this.isAdmin.next(isAdmin);
+  }
 
   login(model: any) {
     return this.http.post(this.baseUrl + 'login', model).pipe(
@@ -25,14 +32,14 @@ export class AuthService {
           localStorage.setItem('token', user.token);
           localStorage.setItem('user', JSON.stringify(user.user));
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
+          this.currentUser = user.user;
+          this.helpMe(this.currentUser.isAdmin);
         }
       })
     );
   }
 
-//   register(user: User) {
-//     return this.http.post(this.baseUrl + 'register', user);
-//   }
+
 
   loggedIn() {
     const token = localStorage.getItem('token');

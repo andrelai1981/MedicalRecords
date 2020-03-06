@@ -16,10 +16,13 @@ import { DepartmentListResolver } from './_resolvers/department-list.resolver';
 import { CountyListResolver } from './_resolvers/county-list.resolver';
 import { BoxListResolver } from './_resolvers/box-list.resolver';
 import { FileListResolver } from './_resolvers/file-list.resolver';
+import { UserNewComponent } from './user/user-new/user-new.component';
+import { UserEditComponent } from './user/user-edit/user-edit.component';
+import { UserDetailResolver } from './_resolvers/user-detail.resolver';
 
 
 export const appRoutes: Routes = [
-  { path: 'home', component: HomeComponent},
+  { path: '', component: HomeComponent},
   {
     path: '',
     runGuardsAndResolvers: 'always',
@@ -35,7 +38,9 @@ export const appRoutes: Routes = [
       { path: 'files/:id/edit', component: FileEditComponent, resolve: {file: FileEditResolver, boxes: BoxListResolver}},
       { path: 'boxes/:id/files/new', component: FileNewComponent},
       { path: 'users', component: UserListComponent},
+      { path: 'users/new', component: UserNewComponent},
+      { path: 'users/:id/edit', component: UserEditComponent, resolve: {user: UserDetailResolver}},
     ]
   },
-  { path: '**', redirectTo: 'home', pathMatch: 'full'}
+  { path: '**', redirectTo: '', pathMatch: 'full'}
 ];

@@ -30,6 +30,9 @@ import { DepartmentListResolver } from './_resolvers/department-list.resolver';
 import { CountyListResolver } from './_resolvers/county-list.resolver';
 import { BoxListResolver } from './_resolvers/box-list.resolver';
 import { FileListResolver } from './_resolvers/file-list.resolver';
+import { UserDetailResolver } from './_resolvers/user-detail.resolver';
+import { UserNewComponent } from './user/user-new/user-new.component';
+import { UserEditComponent } from './user/user-edit/user-edit.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -47,7 +50,9 @@ export function tokenGetter() {
       FileNewComponent,
       UserListComponent,
       BoxEditComponent,
-      FileEditComponent
+      FileEditComponent,
+      UserNewComponent,
+      UserEditComponent
    ],
    imports: [
       BrowserModule,
@@ -77,7 +82,8 @@ export function tokenGetter() {
       BoxEditResolver,
       FileEditResolver,
       DepartmentListResolver,
-      CountyListResolver
+      CountyListResolver,
+      UserDetailResolver
    ],
    bootstrap: [
       AppComponent

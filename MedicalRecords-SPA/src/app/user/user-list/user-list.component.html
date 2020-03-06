@@ -3,7 +3,7 @@
     <h2>Users</h2>
   </div>
   <div class="container mt-3">
-      <button class="btn btn-success" [routerLink]="['/user/new']">
+      <button class="btn btn-success" [routerLink]="['/users/new']" [disabled]="!this.isAdmin">
         Create New User
       </button>
   </div>
@@ -19,7 +19,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let user of users">
-              <td scope="row">{{user.userName}}</td>
+              <td scope="row"><a [routerLink]="['/users/' + user.userId + '/edit']">{{user.userName}}</a></td>
               <td scope="row">{{user.firstName}}</td>
               <td scope="row">{{user.lastName}}</td>
               <td>{{user.isAdmin}}</td>

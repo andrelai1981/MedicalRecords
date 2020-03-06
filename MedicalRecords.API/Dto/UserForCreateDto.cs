@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MedicalRecords.API.Dtos
+namespace MedicalRecords.API.Dto
 {
     public class UserForCreateDto
     {
@@ -15,6 +15,7 @@ namespace MedicalRecords.API.Dtos
         [Required]
         [StringLength(8, MinimumLength = 4, ErrorMessage = "You must specify password between 4 and 8")] 
         public string Password {get; set;}
+        public bool IsAdmin { get; set; }
 
     }
 }
