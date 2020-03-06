@@ -22,7 +22,8 @@
               <td scope="row"><a [routerLink]="['/users/' + user.userId + '/edit']">{{user.userName}}</a></td>
               <td scope="row">{{user.firstName}}</td>
               <td scope="row">{{user.lastName}}</td>
-              <td>{{user.isAdmin}}</td>
+              <td><div *ngIf="user.isAdmin; else elseBlock">Yes</div></td>
+              <ng-template #elseBlock>No</ng-template>
             </tr>
           </tbody>
         </table>
